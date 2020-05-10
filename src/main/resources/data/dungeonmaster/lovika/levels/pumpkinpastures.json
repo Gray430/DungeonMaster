@@ -1,0 +1,987 @@
+{
+    "id": "creeperwoods",
+    "play-intro": false,
+    "require-matching-doors": false,
+    "resource-packs": [
+        "PumpkinPastures"
+    ],
+    "object-groups": [
+        "lobby/objectgroup",
+        "squidcoast/objectgroup",
+        "creeperwoods/objectgroup",
+        "pumpkinpastures/objectgroup",
+        "ppextended/objectgroup",
+        "openwoods/objectgroup",
+        "crypts/objectgroup",
+        "houses/objectgroup",
+        "RuneRoom/objectgroup"
+    ],
+    "prop-density": 0.5,
+    "#dm": "density:Float {only, add}: WeightedStringArray, not: StringArray",
+    "default-mobs": {
+        "only": [
+            "pumpkin-mix",
+            {
+                "id": "pumpkin-casters",
+                "weight": 0.5
+            }
+        ],
+        "density": 1
+    },
+    "objectives": [
+
+//=========================================================================================================================================================================================================
+
+        //Map Begin Zombie Trigger
+        { 
+            "#": "---------- Zombie Trigger BEGIN ----------", 
+            "id": "zombie_delay",
+            "name": "description_dw_begin", 
+            "description": "name_dw_begin", 
+            "displayMode": "MainObjective",
+            "killgroup": 
+            { 
+                "mobs": [ 
+                    1, 
+                    "single-zombie" 
+                ],
+                "reward": [
+                    1,
+                    "emerald"
+                ],
+                "spawn-regions": [
+                    "*.*.zombie_stop_spawn"
+                ]
+            }
+        },
+
+        {
+            "id": "dw_finish_001",
+            "name": "description_dw_finish",
+            "description": "name_dw_finish",
+            "displayMode": "MainObjective",
+            "click": {
+                "object": "_Urns/LootUrnsBlueprints/BP_LootUrn_Blue",
+                "count": 4,
+                "locations": [
+                    "arena.*.barricade_001",
+                    "arena.*.barricade_002",
+                    "arena.*.barricade_003",
+                    "arena.*.barricade_004"
+                ]
+            }
+        }
+
+//=========================================================================================================================================================================================================
+
+    ],
+    "challenges": [],
+    "stretches": [
+        {
+            "id": "arena",
+            "tiles": [
+                "ppe_section_d001"
+            ]
+        }
+    ],
+    "mob-groups": [
+
+//=========================================================================================================================================================================================================
+
+        {
+            "#": "============== SINGLE ZOMBIE ==============",
+            "id": "single-zombie",
+            "types": [
+                {
+                    "type": "zombie",
+                    "weight": 1
+                }
+            ]
+        },
+
+        {
+            "#": "============== wave 1 ==============",
+            "id": "wave1",
+            "types": [
+                {
+                    "type": "zombie",
+                    "weight": 1
+                },
+                {
+                    "type": "skeleton",
+                    "weight": 1
+                }
+            ]
+        },
+
+        {
+            "#": "============== wave 2 ==============",
+            "id": "wave2",
+            "types": [
+                {
+                    "type": "zombie",
+                    "weight": 1
+                },
+                {
+                    "type": "skeleton",
+                    "weight": 1
+                }
+            ]
+        },
+
+        {
+            "#": "============== wave 3 ==============",
+            "id": "wave3",
+            "types": [
+                {
+                    "type": "zombie",
+                    "weight": 1
+                },
+                {
+                    "type": "skeleton",
+                    "weight": 1
+                }
+            ]
+        },
+
+        {
+            "#": "============== wave 4 ==============",
+            "id": "wave4",
+            "types": [
+                {
+                    "type": "zombie",
+                    "weight": 1
+                },
+                {
+                    "type": "skeleton",
+                    "weight": 1
+                }
+            ]
+        },
+
+        {
+            "#": "============== Chicken | Wave 5 ==============",
+            "id": "wave_chicken_5",
+            "types": [
+                {
+                    "type": "chickenjockeytower",
+                    "weight": 1
+                }
+            ]
+        },
+                {
+            "#": "============== wave 6 ==============",
+            "id": "wave6",
+            "types": [
+                {
+                    "type": "zombie",
+                    "weight": 1
+                },
+                {
+                    "type": "skeleton",
+                    "weight": 1
+                },
+                {
+                    "type": "creeper",
+                    "weight": 1
+                },
+                {
+                    "type": "spider",
+                    "weight": 1
+                }
+            ]
+        },
+
+        {
+            "#": "============== wave 7 ==============",
+            "id": "wave7",
+            "types": [
+                {
+                    "type": "zombie",
+                    "weight": 1
+                },
+                {
+                    "type": "skeleton",
+                    "weight": 1
+                },
+                {
+                    "type": "creeper",
+                    "weight": 1
+                },
+                {
+                    "type": "spider",
+                    "weight": 1
+                }
+            ]
+        },
+
+        {
+            "#": "============== wave 8 ==============",
+            "id": "wave8",
+            "types": [
+                {
+                    "type": "zombie",
+                    "weight": 1
+                },
+                {
+                    "type": "skeleton",
+                    "weight": 1
+                },
+                {
+                    "type": "creeper",
+                    "weight": 1
+                },
+                {
+                    "type": "spider",
+                    "weight": 1
+                }
+            ]
+        },
+
+        {
+            "#": "============== wave 9 ==============",
+            "id": "wave9",
+            "types": [
+                {
+                    "type": "zombie",
+                    "weight": 1
+                },
+                {
+                    "type": "skeleton",
+                    "weight": 1
+                },
+                {
+                    "type": "creeper",
+                    "weight": 1
+                },
+                {
+                    "type": "spider",
+                    "weight": 1
+                }
+            ]
+        },
+
+        {
+            "#": "============== Chicken | Wave 10 ==============",
+            "id": "wave_chicken_10",
+            "types": [
+                {
+                    "type": "chickenjockeytower",
+                    "weight": 1
+                }
+            ]
+        },
+        
+        {
+            "#": "============== wave 11 ==============",
+            "id": "wave11",
+            "types": [
+                {
+                    "type": "zombie",
+                    "weight": 1
+                },
+                {
+                    "type": "skeleton",
+                    "weight": 1
+                },
+                {
+                    "type": "creeper",
+                    "weight": 1
+                },
+                {
+                    "type": "spider",
+                    "weight": 1
+                },
+                {
+                    "type": "geomancer",
+                    "weight": 1
+                },
+                {
+                    "type": "vindicator",
+                    "weight": 1
+                }
+            ]
+        },
+
+        {
+            "#": "============== wave 12 ==============",
+            "id": "wave12",
+            "types": [
+                {
+                    "type": "zombie",
+                    "weight": 1
+                },
+                {
+                    "type": "skeleton",
+                    "weight": 1
+                },
+                {
+                    "type": "creeper",
+                    "weight": 1
+                },
+                {
+                    "type": "spider",
+                    "weight": 1
+                },
+                {
+                    "type": "geomancer",
+                    "weight": 1
+                },
+                {
+                    "type": "vindicator",
+                    "weight": 1
+                }
+            ]
+        },
+
+        {
+            "#": "============== wave 13 ==============",
+            "id": "wave13",
+            "types": [
+                {
+                    "type": "zombie",
+                    "weight": 1
+                },
+                {
+                    "type": "skeleton",
+                    "weight": 1
+                },
+                {
+                    "type": "creeper",
+                    "weight": 1
+                },
+                {
+                    "type": "spider",
+                    "weight": 1
+                },
+                {
+                    "type": "geomancer",
+                    "weight": 1
+                },
+                {
+                    "type": "vindicator",
+                    "weight": 1
+                }
+            ]
+        },
+
+        {
+            "#": "============== wave 14 ==============",
+            "id": "wave14",
+            "types": [
+                {
+                    "type": "zombie",
+                    "weight": 1
+                },
+                {
+                    "type": "skeleton",
+                    "weight": 1
+                },
+                {
+                    "type": "creeper",
+                    "weight": 1
+                },
+                {
+                    "type": "spider",
+                    "weight": 1
+                },
+                {
+                    "type": "geomancer",
+                    "weight": 1
+                },
+                {
+                    "type": "vindicator",
+                    "weight": 1
+                }
+            ]
+        },
+
+        {
+            "#": "============== Chicken | Wave 15 ==============",
+            "id": "wave15",
+            "types": [
+                {
+                    "type": "chickenjockeytower",
+                    "weight": 1
+                }
+            ]
+        },
+
+        {
+            "#": "============== wave 16 ==============",
+            "id": "wave16",
+            "types": [
+                {
+                    "type": "zombie",
+                    "weight": 1
+                },
+                {
+                    "type": "skeleton",
+                    "weight": 1
+                },
+                {
+                    "type": "creeper",
+                    "weight": 1
+                },
+                {
+                    "type": "spider",
+                    "weight": 1
+                },
+                {
+                    "type": "vindicator",
+                    "weight": 1
+                },
+                {
+                    "type": "geomancer",
+                    "weight": 1
+                },
+                {
+                    "type": "enchanter",
+                    "weight": 1
+                },
+                {
+                    "type": "wraith",
+                    "weight": 1
+                }
+            ]
+        },
+
+        {
+            "#": "============== wave 17 ==============",
+            "id": "wave17",
+            "types": [
+                {
+                    "type": "zombie",
+                    "weight": 1
+                },
+                {
+                    "type": "skeleton",
+                    "weight": 1
+                },
+                {
+                    "type": "creeper",
+                    "weight": 1
+                },
+                {
+                    "type": "spider",
+                    "weight": 1
+                },
+                {
+                    "type": "vindicator",
+                    "weight": 1
+                },
+                {
+                    "type": "geomancer",
+                    "weight": 1
+                },
+                {
+                    "type": "enchanter",
+                    "weight": 1
+                },
+                {
+                    "type": "wraith",
+                    "weight": 1
+                }
+            ]
+        },
+
+        {
+            "#": "============== wave 18 ==============",
+            "id": "wave18",
+            "types": [
+                {
+                    "type": "zombie",
+                    "weight": 1
+                },
+                {
+                    "type": "skeleton",
+                    "weight": 1
+                },
+                {
+                    "type": "creeper",
+                    "weight": 1
+                },
+                {
+                    "type": "spider",
+                    "weight": 1
+                },
+                {
+                    "type": "vindicator",
+                    "weight": 1
+                },
+                {
+                    "type": "geomancer",
+                    "weight": 1
+                },
+                {
+                    "type": "enchanter",
+                    "weight": 1
+                },
+                {
+                    "type": "wraith",
+                    "weight": 1
+                }
+            ]
+        },
+
+        {
+            "#": "============== wave 19 ==============",
+            "id": "wave19",
+            "types": [
+                {
+                    "type": "zombie",
+                    "weight": 1
+                },
+                {
+                    "type": "skeleton",
+                    "weight": 1
+                },
+                {
+                    "type": "creeper",
+                    "weight": 1
+                },
+                {
+                    "type": "spider",
+                    "weight": 1
+                },
+                {
+                    "type": "vindicator",
+                    "weight": 1
+                },
+                {
+                    "type": "geomancer",
+                    "weight": 1
+                },
+                {
+                    "type": "enchanter",
+                    "weight": 1
+                },
+                {
+                    "type": "wraith",
+                    "weight": 1
+                },
+                {
+                    "type": "jackolantern",
+                    "weight": 1
+                }
+            ]
+        },
+
+        {
+            "#": "============== Chicken | Wave 20 ==============",
+            "id": "wave_chicken_20",
+            "types": [
+                {
+                    "type": "chickenjockeytower",
+                    "weight": 1
+                }
+            ]
+        },
+
+        {
+            "#": "============== wave 21 ==============",
+            "id": "wave21",
+            "types": [
+                {
+                    "type": "zombie",
+                    "weight": 1
+                },
+                {
+                    "type": "skeleton",
+                    "weight": 1
+                },
+                {
+                    "type": "creeper",
+                    "weight": 1
+                },
+                {
+                    "type": "spider",
+                    "weight": 1
+                },
+                {
+                    "type": "vindicator",
+                    "weight": 1
+                },
+                {
+                    "type": "geomancer",
+                    "weight": 1
+                },
+                {
+                    "type": "enchanter",
+                    "weight": 1
+                },
+                {
+                    "type": "wraith",
+                    "weight": 1
+                },
+                {
+                    "type": "jackolantern",
+                    "weight": 1
+                }
+            ]
+        },
+
+                {
+            "#": "============== wave 22 ==============",
+            "id": "wave22",
+            "types": [
+                {
+                    "type": "zombie",
+                    "weight": 1
+                },
+                {
+                    "type": "skeleton",
+                    "weight": 1
+                },
+                {
+                    "type": "creeper",
+                    "weight": 1
+                },
+                {
+                    "type": "spider",
+                    "weight": 1
+                },
+                {
+                    "type": "vindicator",
+                    "weight": 1
+                },
+                {
+                    "type": "geomancer",
+                    "weight": 1
+                },
+                {
+                    "type": "enchanter",
+                    "weight": 1
+                },
+                {
+                    "type": "wraith",
+                    "weight": 1
+                },
+                {
+                    "type": "jackolantern",
+                    "weight": 1
+                }
+            ]
+        },
+
+        {
+            "#": "============== wave 23 ==============",
+            "id": "wave23",
+            "types": [
+                {
+                    "type": "zombie",
+                    "weight": 1
+                },
+                {
+                    "type": "skeleton",
+                    "weight": 1
+                },
+                {
+                    "type": "creeper",
+                    "weight": 1
+                },
+                {
+                    "type": "spider",
+                    "weight": 1
+                },
+                {
+                    "type": "vindicator",
+                    "weight": 1
+                },
+                {
+                    "type": "geomancer",
+                    "weight": 1
+                },
+                {
+                    "type": "enchanter",
+                    "weight": 1
+                },
+                {
+                    "type": "wraith",
+                    "weight": 1
+                },
+                {
+                    "type": "jackolantern",
+                    "weight": 1
+                }
+            ]
+        },
+
+        {
+            "#": "============== wave 24 ==============",
+            "id": "wave24",
+            "types": [
+                {
+                    "type": "zombie",
+                    "weight": 1
+                },
+                {
+                    "type": "skeleton",
+                    "weight": 1
+                },
+                {
+                    "type": "creeper",
+                    "weight": 1
+                },
+                {
+                    "type": "spider",
+                    "weight": 1
+                },
+                {
+                    "type": "vindicator",
+                    "weight": 1
+                },
+                {
+                    "type": "geomancer",
+                    "weight": 1
+                },
+                {
+                    "type": "enchanter",
+                    "weight": 1
+                },
+                {
+                    "type": "wraith",
+                    "weight": 1
+                },
+                {
+                    "type": "jackolantern",
+                    "weight": 1
+                }
+            ]
+        },
+        
+        {
+            "#": "============== Chicken | Wave 25 ==============",
+            "id": "wave_chicken_25",
+            "types": [
+                {
+                    "type": "chickenjockeytower",
+                    "weight": 1
+                }
+            ]
+        },
+
+                {
+            "#": "============== wave 26 ==============",
+            "id": "wave26",
+            "types": [
+                {
+                    "type": "zombie",
+                    "weight": 1
+                },
+                {
+                    "type": "skeleton",
+                    "weight": 1
+                },
+                {
+                    "type": "creeper",
+                    "weight": 1
+                },
+                {
+                    "type": "spider",
+                    "weight": 1
+                },
+                {
+                    "type": "vindicator",
+                    "weight": 1
+                },
+                {
+                    "type": "geomancer",
+                    "weight": 1
+                },
+                {
+                    "type": "enchanter",
+                    "weight": 1
+                },
+                {
+                    "type": "wraith",
+                    "weight": 1
+                },
+                {
+                    "type": "jackolantern",
+                    "weight": 1
+                },
+                {
+                    "type": "necromancer",
+                    "weight": 1
+                }
+            ]
+        },
+
+        {
+            "#": "============== wave 27 ==============",
+            "id": "wave27",
+            "types": [
+                {
+                    "type": "zombie",
+                    "weight": 1
+                },
+                {
+                    "type": "skeleton",
+                    "weight": 1
+                },
+                {
+                    "type": "creeper",
+                    "weight": 1
+                },
+                {
+                    "type": "spider",
+                    "weight": 1
+                },
+                {
+                    "type": "vindicator",
+                    "weight": 1
+                },
+                {
+                    "type": "geomancer",
+                    "weight": 1
+                },
+                {
+                    "type": "enchanter",
+                    "weight": 1
+                },
+                {
+                    "type": "wraith",
+                    "weight": 1
+                },
+                {
+                    "type": "jackolantern",
+                    "weight": 1
+                },
+                {
+                    "type": "necromancer",
+                    "weight": 1
+                }
+            ]
+        },
+
+        {
+            "#": "============== wave 28 ==============",
+            "id": "wave28",
+            "types": [
+                {
+                    "type": "zombie",
+                    "weight": 1
+                },
+                {
+                    "type": "skeleton",
+                    "weight": 1
+                },
+                {
+                    "type": "creeper",
+                    "weight": 1
+                },
+                {
+                    "type": "spider",
+                    "weight": 1
+                },
+                {
+                    "type": "vindicator",
+                    "weight": 1
+                },
+                {
+                    "type": "geomancer",
+                    "weight": 1
+                },
+                {
+                    "type": "enchanter",
+                    "weight": 1
+                },
+                {
+                    "type": "wraith",
+                    "weight": 1
+                },
+                {
+                    "type": "jackolantern",
+                    "weight": 1
+                },
+                {
+                    "type": "necromancer",
+                    "weight": 1
+                },
+                {
+                    "type": "evoker",
+                    "weight": 1
+                }
+            ]
+        },
+
+        {
+            "#": "============== wave 29 ==============",
+            "id": "wave29",
+            "types": [
+                {
+                    "type": "zombie",
+                    "weight": 1
+                },
+                {
+                    "type": "skeleton",
+                    "weight": 1
+                },
+                {
+                    "type": "creeper",
+                    "weight": 1
+                },
+                {
+                    "type": "spider",
+                    "weight": 1
+                },
+                {
+                    "type": "vindicator",
+                    "weight": 1
+                },
+                {
+                    "type": "geomancer",
+                    "weight": 1
+                },
+                {
+                    "type": "enchanter",
+                    "weight": 1
+                },
+                {
+                    "type": "wraith",
+                    "weight": 1
+                },
+                {
+                    "type": "jackolantern",
+                    "weight": 1
+                },
+                {
+                    "type": "necromancer",
+                    "weight": 1
+                },
+                {
+                    "type": "evoker",
+                    "weight": 1
+                }
+            ]
+        },
+        
+        {
+            "#": "============== Chicken | Wave 30 ==============",
+            "id": "wave_chicken_30",
+            "types": [
+                {
+                    "type": "chickenjockeytower",
+                    "weight": 1
+                }
+            ]
+        }
+
+//=========================================================================================================================================================================================================
+
+    ],
+    "props": [],
+    "tiles": [
+        {
+            "id": "ppe_section_d001",
+            "entry-door": "enter",
+            "rotations": 180,
+            "##loc": "pumpkinpastures/ppextended_tiles.json"
+        }
+    ],
+    "prop-groups": [
+    ],
+    "tile-groups": [],
+    "dungeons": []
+}

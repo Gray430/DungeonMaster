@@ -1,0 +1,448 @@
+{
+	"id": "Pumpkinpastures",
+	"object-groups": [
+		"pumpkinpastures/objectgroup"
+	],
+	"resource-packs": [
+		"Pumpkinpastures"
+	],
+
+	"visual-theme": "cave",
+	"sound-theme": "cave",
+	"prop-density": 0.5,
+	"mob-files": [
+        "PumpkinPastures/pp_mobs.json"
+    ],
+	/*"mob-groups": [
+	    {
+	        "#": "============== PUMPKIN MIX ==============",
+	        "id": "pumpkin-mix",
+	        "types": [
+	            {"type": "zombie", "weight": 1},
+	            {"type": "skeleton", "weight": 1},
+	            {"type": "vindicator", "weight": 1},
+                {"type": "animal", "weight": 0.5, "max": 7},
+	            {"type": "creeper", "weight": 0.3, "max": 4},
+	            {"type": "spider", "weight": 0.5, "max": 7},
+	            {"type": "evoker", "weight": 0.2, "max": 2},
+	            {"type": "enchanter", "weight": 0.2, "max": 2},
+	            {"type": "chickenjockey", "weight": 0.1, "max": 3}
+	        ],
+	         "pick-types": [3, 4]
+	    },
+	    {
+            "#": "============== SINGLE jackolantern ==============",
+            "id": "jackolantern",
+            "types": [
+                {"type": "jackolantern", "weight": 1, "max": 6}
+            ]
+        },
+	    {
+	        "#": "============== PUMPKIN MIX ==============",
+	        "id": "pumpkin-casters",
+	        "types": [
+	            {"type": "skeleton", "weight": 1},
+	            {"type": "vindicator", "weight": 1},
+	            {"type": "evoker", "weight": 0.5, "max": 2},
+	            {"type": "enchanter", "weight": 0.5, "max": 2}
+	        ],
+	         "pick-types": [3, 3]
+	    },
+		{
+	        "#": "============== RANDOM ARENA ==============",
+	        "id": "random-arena",
+	        "types": [
+	            {"type": "skeleton", "weight": 1},
+	            {"type": "vindicator", "weight": 1},
+	            {"type": "evoker", "weight": 0.5, "max": 2},
+	            {"type": "enchanter", "weight": 0.5, "max": 2}
+	        ],
+	         "pick-types": [2, 3]
+	    },
+		{
+			"#": "============== ILLAGER EVOKER ==============",
+			"id": "illagerevoker-group",
+			"types": [
+				{"type": "evoker", "weight": 1, "min": 1, "max": 1},
+				{"type": "vindicator", "weight": 3, "min": 1}        
+			]
+		},
+		{
+			"#": "============== ILLAGER ENCHANTER ==============",
+			"id": "illagerenchanter-group",
+			"types": [
+				{"type": "enchanter", "weight": 1, "min": 1, "max": 1},
+				{"type": "vindicator", "weight": 3, "min": 1}
+			]
+		},
+		{
+			"#": "============== ILLAGER DUO ENCHANTER ==============",
+			"id": "illagerenchanter-duo-group",
+			"types": [
+				{"type": "enchanter", "weight": 1, "min": 2, "max": 2},
+				{"type": "vindicator", "weight": 3, "min": 2}
+			]
+		},
+		{
+			"#": "============== VINDICATOR GROUP ==============",
+			"id": "vindicator-group",
+			"types": [
+				{"type": "vindicator", "min": 1}
+			]
+		}
+	],*/
+    "#dm" : "density:Float {only, add}: WeightedStringArray, not: StringArray",
+    "default-mobs": {
+        "only": [
+        	"pumpkin-mix",
+			{"id": "pumpkin-casters", "weight": 0.5}
+        ],
+		"density": 1.0
+    },    
+    "tiles": [
+		{
+			"id": "pp_obj_alt",
+			"rotations": 0
+		},
+		{
+			"id": "pp_transition",
+			"entry-door": "enter"
+		},
+		{
+			"id": "pp_transition002",
+			"entry-door": "enter"
+		},
+		{
+			"id": "pp_obj",
+			"rotations": 180
+		},
+		{
+			"id": "pp_inventory001",
+			"rotations": 90
+		},
+		{
+			"id": "pp_inventory002",
+			"rotations": 0
+		},
+		{
+			"id": "pp_start",
+			"rotations": 0
+		},
+		{
+			"id": "pp_006",
+			"entry-door": "enter"
+		},
+		{
+			"id": "pp_006_p2",
+			"entry-door": "enter"
+		},
+		{
+			"id": "pp_006_p3",
+			"entry-door": "enter"
+		},
+		{
+			"id": "pp_006_p4",
+			"entry-door": "enter"
+		},
+		{
+			"id": "pp_006_p5",
+			"entry-door": "enter"
+		},
+		{
+			"id": "pp_arena001",
+			"entry-door": "enter"
+		}
+	],
+	"#tg": "First 'pp' stands for PumpkinPastures!",
+	"tile-groups": [
+		{
+			"#": "Start tile",
+			"id": "start",
+			"tiles": ["pp_start"]
+		},
+		{
+			"#": "Ship tile",
+			"id": "ship",
+			"tiles": ["pp_006"]
+		},
+		{
+			"#": "Ship tile2",
+			"id": "ship2",
+			"tiles": ["pp_006_p2"]
+		},
+		{
+			"#": "Ship tile3",
+			"id": "ship3",
+			"tiles": ["pp_006_p3"]
+		},
+		{
+			"#": "Ship tile4",
+			"id": "ship4",
+			"tiles": ["pp_006_p4"]
+		},
+		{
+			"#": "Ship tile5",
+			"id": "ship5",
+			"tiles": ["pp_006_p5"]
+		},
+		{
+			"#": "Open tiles",
+			"id": "open",
+			"tiles": ["pp_002", "pp_003", "pp_005"]
+		},
+		{
+			"#": "Transition tile",
+			"id": "trans",
+			"tiles": ["pp_transition"]
+		},
+		{
+			"#": "Transition tile",
+			"id": "trans_smalltolarge",
+			"tiles": ["pp_transition002"]
+		},
+		{
+			"#": "Inventory Tiles",
+			"id": "inventory",
+			"tiles": ["pp_inventory001", "pp_inventory002"]
+		},
+		{
+			"#": "Small tiles",
+			"id": "small",
+			"tiles": ["pp_small001", "pp_small002", "pp_small003", "pp_small004", "pp_small005", "pp_small006", "pp_smallish001", "pp_smallish002", "pp_smallish003"]
+		},
+		{
+			"#": "Medium tiles",
+			"id": "medium",
+			"tiles": ["pp_med001", "pp_med002", "pp_med003"]
+		},
+		{
+			"#": "Objective Arena",
+			"id": "arena",
+			"tiles": ["pp_obj_alt"]
+		},
+		{
+			"#": "Drawbridge Arena",
+			"id": "drawbridge",
+			"tiles": ["pp_arena001"]
+		}
+	],
+	"objectives": [
+		{
+            "name": "name_the_last_hearth",
+            "description": "description_reach_the_drawbridge",
+            "displayMode": "MainObjective",
+            "gauntlet": {
+                "end-region": "drawbridge.*.objective"
+            }
+        },
+        {
+            "name": "name_the_last_hearth",
+            "description": "description_lower_the_drawbridge",
+			"displayMode": "MainObjective",
+            "click": {
+				"object": "DrawBridge/BP_DrawBridge",
+				"count": 1,
+				"locations": [
+					"drawbridge.*.gate"
+					],
+                //"mobs": [1, "vindicator-group"],
+				//"mobs": [1, "vindicator-group"],
+				//"mobs": [1, "vindicator-group"],
+				//"mobs": [1, "vindicator-group"],
+				"mob-stretch": "drawbridge.*.objective2"
+            }
+        },
+		{
+            "name": "name_the_last_hearth",
+            "description": "description_survive_the_incoming_horde",
+            "arena": {
+                "stretch": "drawbridge",
+                "interval": 8,
+                "rest-interval": 4,
+				"start-time": 2.0,
+				"battle-max-duration": 45,
+                "waves": [
+                    [5, "vindicator-group"],
+                    [5, "illagerevoker-group"],
+                    [3, "illagerenchanter-group"],
+                    [7, "illagerevoker-group"],
+                    [4, "random-arena"],
+                    [8, "illagerenchanter-duo-group"],
+                    [3, "illagerenchanter-group"],
+                    [7, "illagerenchanter-group"],
+                    [4, "vindicator-group"],
+                    [7, "illagerenchanter-group"],
+                    [2, "illagerevoker-group"]					
+                ]
+            }
+		},
+		{
+            "name": "name_the_last_hearth",
+            "description": "description_find_the_unspoiled_village",
+//            "displayMode": "MainObjective",
+            "gauntlet": {
+                "end-region": "arena.*.objective"
+            }
+        },
+        {
+            "name": "name_the_last_hearth",
+            "description": "description_ring_the_town_bell_to_warn_the_townsfolk",
+            "click": {
+                "object": "TownBell/BP_Townbell",
+                "count": 1,
+                "locations": [
+            	    "arena.*.bell"
+                ]
+            }
+        },
+        {
+            "name": "name_the_last_hearth",
+            "description": "description_survive_the_incoming_horde",
+            "arena": {
+                "stretch": "arena",
+                "interval": 8, // Doubled from previous
+                "rest-interval": 6, //doubled from previous
+				"start-time": 2.0,
+                "waves": [
+                    [5, "vindicator-group"],
+                    [5, "illagerevoker-group"],
+                    [3, "illagerenchanter-group"],
+                    [7, "illagerenchanter-group"],
+                    [4, "vindicator-group"],
+                    [7, "illagerenchanter-group"],
+                    [2, "illagerevoker-group"],
+                    [8, "illagerenchanter-duo-group"]    
+                ]
+            },
+            "sound": {
+                "track": {
+                    "object": "04_bgm_env_arena/bgm_env_pupaArena"
+                },
+				"completed-track": {
+                    "object": "04_bgm_env_arena/bgm_env_arenaEnd"
+                }
+            }
+        },
+        {
+            "name": "name_scape",
+            "description": "description_escape_into_the_town_hall",
+            "click": {
+                "object": "DoorExit/BP_DoorExit_PP",
+                "count": 1,
+                "locations": [
+            	    "arena.*.doubledoor"
+                ]
+            }
+        }
+		
+    ],
+	"stretches": [
+		{
+			"id": "start",
+			"tile-groups": ["start"],
+			"sound-theme": "silent",
+			"visual-theme": "cave_dark"
+		},
+		{
+			"id": "ship",
+			"tile-groups": ["ship"],
+			"sound-theme": "silent",
+			"visual-theme": "cave_dark",
+			"mobs": {
+				"density": 0.35
+			}
+		},
+		{
+			"id": "ship2",
+			"tile-groups": ["ship2"],
+			"sound-theme": "silent",
+			"visual-theme": "cave_dark",
+			"mobs": {
+				"density": 0.5
+			}
+		},
+		{
+			"id": "ship3",
+			"tile-groups": ["ship3"],
+			"sound-theme": "silent",
+			"visual-theme": "cave_dark"
+		},
+		{
+			"id": "ship4",
+			"tile-groups": ["ship4"],
+			"sound-theme": "silent",
+			"visual-theme": "cave_dark"
+		},
+		{
+			"id": "ship5",
+			"tile-groups": ["ship5"],
+			"sound-theme": "silent",
+			"visual-theme": "cave_dark"
+		},
+		{
+			"id": "drawbridge",
+			"tile-groups": ["drawbridge"],
+			"sound-theme": "silent",
+			"visual-theme": "cave_dark",
+			"mobs": { "density": 0 }
+		},
+		{
+			"id": "",
+			"tile-groups": ["medium"],
+			"sound-theme": "silent",
+			"length": 1,
+			"visual-theme": "cave_dark"
+		},
+		{
+			"id": "",
+			"tile-groups": ["trans_smalltolarge"],
+			"sound-theme": "silent",
+			"visual-theme": "cave_dark"
+		},
+		{
+			"id": "",
+			"tile-groups": ["open"],
+			"sound-theme": "silent",
+			"length": 1,
+			"visual-theme": "cave_dark"
+		},
+		{
+			"id": "",
+			"tile-groups": ["trans"],
+			"sound-theme": "silent",
+			"visual-theme": "cave_dark"
+		},
+		{
+			"id": "",
+			"tile-groups": ["inventory"],
+			"sound-theme": "silent",
+			"visual-theme": "cave_dark"
+		},
+		{
+			"id": "",
+			"tile-groups": ["small"],
+			"sound-theme": "silent",
+			"length": 2,
+			"visual-theme": "cave_dark"
+		},
+		{
+			"id": "",
+			"tile-groups": ["medium"],
+			"sound-theme": "silent",
+			"length": 1,
+			"visual-theme": "cave_dark"
+		},
+		{
+			"id": "",
+			"tile-groups": ["trans_smalltolarge"],
+			"sound-theme": "silent",
+			"visual-theme": "cave_dark"
+		},
+		{
+			"id": "arena",
+			"tile-groups": ["arena"],
+			"sound-theme": "silent",
+			"visual-theme": "cave_dark"
+		}
+	]
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "dungeonmaster:block/tiler",
+  "textures": {
+    "layer0": "dungeonmaster:block/tiler_import"
+  }
+}
