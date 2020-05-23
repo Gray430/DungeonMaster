@@ -1,5 +1,6 @@
 package net.dungeonsworkshop.dungeonmaster;
 
+import net.dungeonsworkshop.dungeonmaster.common.command.GetBedrockInfoCommand;
 import net.dungeonsworkshop.dungeonmaster.common.command.SpawnTileCommand;
 import net.dungeonsworkshop.dungeonmaster.common.init.DungeonBlocks;
 import net.dungeonsworkshop.dungeonmaster.common.init.DungeonItems;
@@ -37,13 +38,13 @@ public class DungeonMaster {
         MinecraftForge.EVENT_BUS.register(this);
         DungeonItems.ITEMS.register(modBus);
         DungeonBlocks.BLOCKS.register(modBus);
-        //DungeonEntities.ENTITIES.register(modBus);
     }
 
     @SubscribeEvent
     public void onServerStartingEvent(FMLServerStartingEvent event)
     {
         SpawnTileCommand.register(event.getCommandDispatcher());
+        GetBedrockInfoCommand.register(event.getCommandDispatcher());
     }
 
 }

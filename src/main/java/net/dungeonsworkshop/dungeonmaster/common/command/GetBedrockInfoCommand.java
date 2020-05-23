@@ -12,12 +12,12 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 
-public class SpawnTileCommand {
+public class GetBedrockInfoCommand {
 
     public static void register(CommandDispatcher<CommandSource> dispatcher)
     {
         dispatcher.register(
-                Commands.literal("spawntile")
+                Commands.literal("bedrockinfo")
                         .requires((source) -> source.hasPermissionLevel(2))
                         .then(Commands.argument("position", BlockPosArgument.blockPos())
                                 .executes((ctx) -> execute(ctx.getSource(), BlockPosArgument.getLoadedBlockPos(ctx, "position"))))
@@ -29,12 +29,9 @@ public class SpawnTileCommand {
     {
         try {
             ServerPlayerEntity player = source.asPlayer();
-            Tile tile = MapHelper.loadTile("squidcoast", "scn_tile002");
-            Tile.buildTileAtPos(player.world, position, tile);
-            source.sendFeedback(new StringTextComponent("Spawned Tile at " + position), true);
+            source.sendFeedback(new StringTextComponent(MapHelper.getInfoAtPos("squidcoast", "scn_tile002", position)), true);
 
             return Command.SINGLE_SUCCESS;
-
         }catch (Exception e){
             e.printStackTrace();
             return 0;
