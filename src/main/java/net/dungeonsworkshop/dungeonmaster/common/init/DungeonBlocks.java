@@ -21,12 +21,12 @@ public class DungeonBlocks {
     //Blocks
     public static final RegistryObject<Block> MISSING_BLOCK = register("missing_block", () -> new Block(Block.Properties.create(Material.BARRIER)));
 
-    public static class SquidCoastBlocks{
-        public static final RegistryObject<GrassBlock> SQ_GRASS_BLOCK_DARK = register("squidcoast/grass_block_dark", () -> new GrassBlock(Block.Properties.from(Blocks.GRASS_BLOCK)));
-        public static final RegistryObject<GrassBlock> SQ_CUSTOM_0 = register("squidcoast/custom_0", () -> new GrassBlock(Block.Properties.from(Blocks.GRASS_BLOCK)));
-    }
-    //Registry
+    // ------------------------ Squid Coast Start ------------------------
+    public static final RegistryObject<GrassBlock> SQ_GRASS_BLOCK_DARK = register("squidcoast/grass_block_dark", () -> new GrassBlock(Block.Properties.from(Blocks.GRASS_BLOCK)));
+    public static final RegistryObject<GrassBlock> SQ_CUSTOM_0 = register("squidcoast/custom_0", () -> new GrassBlock(Block.Properties.from(Blocks.GRASS_BLOCK)));
+    // ------------------------ Squid Coast End ------------------------
 
+    //Registry
     private static <T extends Block> RegistryObject<T> register(String name, Supplier<T> block) {
         return register(name, block, object -> new BlockItem(object.get(), new Item.Properties().group(DungeonMaster.GROUP)));
     }
