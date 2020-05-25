@@ -1,0 +1,9 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "particle": "dungeonmaster:block/squidcoast/red_sandstone_normal",
+    "bottom": "dungeonmaster:block/squidcoast/red_sandstone_top",
+    "side": "dungeonmaster:block/squidcoast/red_sandstone_normal",
+    "top": "dungeonmaster:block/squidcoast/red_sandstone_top"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "dungeonmaster:squidcoast/flower_allium",
+    "dungeonmaster:squidcoast/flower_dandelion",
+    "dungeonmaster:squidcoast/flower_houstonia",
+    "dungeonmaster:squidcoast/flower_oxeye_daisy",
+    "dungeonmaster:squidcoast/flower_paeonia",
+    "dungeonmaster:squidcoast/flower_rose",
+    "dungeonmaster:squidcoast/flower_tulip_white",
+    "dungeonmaster:squidcoast/cobblestone_wall",
+    "dungeonmaster:squidcoast/cobblestone_mossy_wall"
+  ]
+}

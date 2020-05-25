@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=top": {
+      "model": "dungeonmaster:block/squidcoast/stone_slab_top"
+    },
+    "type=bottom": {
+      "model": "dungeonmaster:block/squidcoast/stone_slab_bottom"
+    },
+    "type=double": {
+      "model": "dungeonmaster:block/squidcoast/stone_slab_double"
+    }
+  }
+}

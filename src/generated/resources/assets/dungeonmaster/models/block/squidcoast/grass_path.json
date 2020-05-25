@@ -1,0 +1,9 @@
+{
+  "parent": "block/grass_path",
+  "textures": {
+    "particle": "dungeonmaster:block/squidcoast/grass_path_side",
+    "bottom": "dungeonmaster:block/squidcoast/grass_path_top",
+    "side": "dungeonmaster:block/squidcoast/grass_path_side",
+    "top": "dungeonmaster:block/squidcoast/grass_path_top"
+  }
+}

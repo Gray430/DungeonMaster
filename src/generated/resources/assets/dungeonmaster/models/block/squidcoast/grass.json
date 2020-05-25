@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "particle": "dungeonmaster:block/squidcoast/grass_side",
+    "side": "dungeonmaster:block/squidcoast/grass_side",
+    "top": "dungeonmaster:block/squidcoast/grass_top"
+  }
+}

@@ -3,8 +3,8 @@ package net.dungeonsworkshop.dungeonmaster.common.command;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.dungeonsworkshop.dungeonmaster.common.map.MapHelper;
-import net.dungeonsworkshop.dungeonmaster.common.map.Tile;
+import net.dungeonsworkshop.dungeonmaster.common.map.editor.MapHelper;
+import net.dungeonsworkshop.dungeonmaster.common.map.types.Tile;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.BlockPosArgument;
@@ -29,7 +29,7 @@ public class SpawnTileCommand {
     {
         try {
             ServerPlayerEntity player = source.asPlayer();
-            Tile tile = MapHelper.loadTile("squidcoast", "scn_tile002");
+            Tile tile = MapHelper.loadTile("Lobby", "lobby001");
             Tile.buildTileAtPos(player.world, position, tile);
             source.sendFeedback(new StringTextComponent("Spawned Tile at " + position), true);
 

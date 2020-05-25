@@ -1,0 +1,9 @@
+{
+  "parent": "block/slab",
+  "textures": {
+    "particle": "dungeonmaster:block/squidcoast/stonefloor4",
+    "bottom": "dungeonmaster:block/squidcoast/stonefloor4",
+    "side": "dungeonmaster:block/squidcoast/stonefloor4",
+    "top": "dungeonmaster:block/squidcoast/stonefloor4"
+  }
+}

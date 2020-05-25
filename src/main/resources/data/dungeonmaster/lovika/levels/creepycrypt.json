@@ -462,10 +462,7 @@
                         "vindicator-group"
                     ]
                 ],
-                "gate": {
-                    "object": "Door/BP_StoneDoor",
-                    "start-unlocked": false
-                }
+                "gate": null
             },
             "##loc": "crypt/crypt_tiles.json"
         },

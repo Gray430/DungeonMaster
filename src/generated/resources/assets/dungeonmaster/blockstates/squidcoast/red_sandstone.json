@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=top": {
+      "model": "dungeonmaster:block/squidcoast/red_sandstone_top"
+    },
+    "type=bottom": {
+      "model": "dungeonmaster:block/squidcoast/red_sandstone_bottom"
+    },
+    "type=double": {
+      "model": "dungeonmaster:block/squidcoast/red_sandstone_double"
+    }
+  }
+}

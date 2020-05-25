@@ -1,0 +1,6 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "dungeonmaster:block/squidcoast/flower_tulip_white"
+  }
+}

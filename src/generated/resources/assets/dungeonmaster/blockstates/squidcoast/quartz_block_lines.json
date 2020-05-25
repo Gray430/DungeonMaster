@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "dungeonmaster:block/squidcoast/quartz_block_lines",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "dungeonmaster:block/squidcoast/quartz_block_lines"
+    },
+    "axis=z": {
+      "model": "dungeonmaster:block/squidcoast/quartz_block_lines",
+      "x": 90
+    }
+  }
+}

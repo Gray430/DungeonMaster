@@ -1,9 +1,3 @@
-// ███╗   ██╗ ██████╗     ████████╗ ██████╗ ██╗   ██╗ ██████╗██╗  ██╗██╗██╗██╗
-// ████╗  ██║██╔═══██╗    ╚══██╔══╝██╔═══██╗██║   ██║██╔════╝██║  ██║██║██║██║
-// ██╔██╗ ██║██║   ██║       ██║   ██║   ██║██║   ██║██║     ███████║██║██║██║
-// ██║╚██╗██║██║   ██║       ██║   ██║   ██║██║   ██║██║     ██╔══██║╚═╝╚═╝╚═╝
-// ██║ ╚████║╚██████╔╝       ██║   ╚██████╔╝╚██████╔╝╚██████╗██║  ██║██╗██╗██╗
-// ╚═╝  ╚═══╝ ╚═════╝        ╚═╝    ╚═════╝  ╚═════╝  ╚═════╝╚═╝  ╚═╝╚═╝╚═╝╚═╝
 {
     "id": "lobby",
     "objectives": [],
@@ -31,7 +25,8 @@
                 "lootchest5",
                 "lootchest6",
                 "lootchest7",
-                "lootchest8"
+                "lootchest8",
+                "op_jumppads"
             ]
         },
         {
@@ -46,6 +41,32 @@
         }
     ],
     "dungeons": [
+        {
+            "id": "greathall",
+            "ambience": "bravo",
+            "stretches": [
+                {
+                    "tiles": [
+                        "greathall"
+                    ],
+                    "audio-ambience": "audio_4"
+                }
+            ],
+            "##loc": "lobby/lobby.json"
+        },
+        {
+            "id": "greathall_mooroom",
+            "ambience": "bravo",
+            "stretches": [
+                {
+                    "tiles": [
+                        "greathall_mooroom"
+                    ],
+                    "audio-ambience": "audio_5"
+                }
+            ],
+            "##loc": "lobby/lobby.json"
+        },
         {
             "id": "home",
             "ambience": "alpha",
@@ -441,6 +462,14 @@
                         "home"
                     ],
                     "object": "DoorTravel/Lobby/BP_Door_Lobby3x3"
+                },
+                {
+                    "door": "greathall_entrance",
+                    "dungeons": [
+                        "greathall"
+                    ],
+                    "object": "DoorTravel/Lobby/BP_GreatHall_Door_Outer",
+                    "exit": "*.*.entrance"
                 }
             ],
             "##loc": "lobby/lobby_tiles.json"
@@ -456,6 +485,25 @@
             "teleports": [
                 {
                     "door": "exit"
+                }
+            ],
+            "##loc": "lobby/lobby_tiles.json"
+        },
+        {
+            "id": "greathall",
+            "rotations": 0,
+            "entry-door": "entrance",
+            "teleports": [
+                {
+                    "door": "entrance",
+                    "object": "DoorTravel/Lobby/BP_CreeperDoor_Inner"
+                },
+                {
+                    "door": "moogate",
+                    "dungeons": [
+                        "greathall_mooroom"
+                    ],
+                    "object": "DoorTravel/BP_Door4x4"
                 }
             ],
             "##loc": "lobby/lobby_tiles.json"
@@ -483,6 +531,17 @@
             "teleports": [
                 {
                     "door": "exit"
+                }
+            ],
+            "##loc": "lobby/lobby_tiles.json"
+        },
+        {
+            "id": "greathall_mooroom",
+            "rotations": 0,
+            "teleports": [
+                {
+                    "door": "entrance",
+                    "object": "DoorTravel/Lobby/BP_CreeperDoor_Inner"
                 }
             ],
             "##loc": "lobby/lobby_tiles.json"

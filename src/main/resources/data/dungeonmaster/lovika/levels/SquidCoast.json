@@ -62,7 +62,58 @@
                         "*.*.kg_gate001"
                     ],
                     "object": "Door/BP_BarricadeDoor_Flipped"
-                }
+                },
+                "marker-region": "*.*.kg_gate001"
+            }
+        },
+        {
+            "name": "name_a_cry_for_heroes",
+            "description": "description_defeat_the_invaders",
+            "displayMode": "SubObjective",
+            "killgroup": {
+                "mobs": [
+                    1,
+                    "single-zombie"
+                ],
+                "reward": [
+                    1,
+                    "emerald"
+                ],
+                "spawn-regions": [
+                    "*.*.kg_spawn002"
+                ],
+                "gate": {
+                    "regions": [
+                        "*.*.kg_gate002"
+                    ],
+                    "object": "Door/BP_BarricadeDoor_Flipped"
+                },
+                "marker-region": "*.*.kg_gate002"
+            }
+        },
+        {
+            "name": "name_a_cry_for_heroes",
+            "description": "description_defeat_the_invaders",
+            "displayMode": "SubObjective",
+            "killgroup": {
+                "mobs": [
+                    3,
+                    "single-zombie"
+                ],
+                "reward": [
+                    2,
+                    "emerald"
+                ],
+                "spawn-regions": [
+                    "*.*.kg_spawn003"
+                ],
+                "gate": {
+                    "regions": [
+                        "*.*.kg_gate003"
+                    ],
+                    "object": "Door/BP_BarricadeDoor_Flipped"
+                },
+                "marker-region": "*.*.kg_gate003"
             }
         },
         {
@@ -70,7 +121,8 @@
             "name": "name_a_cry_for_heroes",
             "description": "description_defeat_the_invaders",
             "gauntlet": {
-                "end-region": "*.*.bridge"
+                "end-region": "*.*.bridge",
+                "marker-region": "*.*.bridge"
             }
         },
         {
@@ -97,14 +149,25 @@
                         "*.*.kg_skeleton_gate01"
                     ],
                     "object": "Door/BP_BarricadeDoor_Flipped"
-                }
+                },
+                "marker-region": "*.*.kg_skeleton_gate01"
+            }
+        },
+        {
+            "name": "name_a_cry_for_heroes",
+            "description": "description_defeat_the_invaders",
+            "displayMode": "SubObjective",
+            "gauntlet": {
+                "end-region": "*.*.gauntletbridge2",
+                "marker-region": "*.*.gauntletbridge2"
             }
         },
         {
             "name": "name_a_cry_for_heroes",
             "description": "description_defeat_the_invaders",
             "gauntlet": {
-                "end-region": "*.*.illagers"
+                "end-region": "*.*.illagers",
+                "marker-region": "*.*.illagers"
             }
         },
         {
@@ -127,7 +190,8 @@
                         "*.*.kg_illager_gate"
                     ],
                     "object": "Door/BP_BarricadeDoor"
-                }
+                },
+                "marker-region": "*.*.kg_illager_gate"
             }
         },
         {
@@ -401,12 +465,6 @@
         {
             "id": "scn_start001",
             "entry-door": "enter",
-            "challenges": [
-                "kg_zombies001",
-                "kg_zombies002",
-                "kg_zombies003",
-                "kg_zombies004"
-            ],
             "rotations": 0,
             "##loc": "SquidCoast/sq_tiles.json"
         },
@@ -419,8 +477,6 @@
             "id": "secret@scn_tile002",
             "entry-door": "enter",
             "challenges": [
-                "kg_zombies001",
-                "kg_zombies002",
                 "kg_zombies003",
                 "kg_zombies004",
                 "kg_skeleton"
@@ -443,8 +499,6 @@
             "id": "scn_tile002",
             "entry-door": "enter",
             "challenges": [
-                "kg_zombies001",
-                "kg_zombies002",
                 "kg_zombies003",
                 "kg_zombies004",
                 "kg_skeleton"

@@ -3,8 +3,7 @@ package net.dungeonsworkshop.dungeonmaster.common.command;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.dungeonsworkshop.dungeonmaster.common.map.MapHelper;
-import net.dungeonsworkshop.dungeonmaster.common.map.Tile;
+import net.dungeonsworkshop.dungeonmaster.common.map.editor.MapHelper;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.BlockPosArgument;
@@ -29,7 +28,7 @@ public class GetBedrockInfoCommand {
     {
         try {
             ServerPlayerEntity player = source.asPlayer();
-            source.sendFeedback(new StringTextComponent(MapHelper.getInfoAtPos("squidcoast", "scn_tile002", position)), true);
+//            source.sendFeedback(new StringTextComponent(MapHelper.getInfoAtPos("Lobby", "lobby001", position)), true);
 
             return Command.SINGLE_SUCCESS;
         }catch (Exception e){
