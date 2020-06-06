@@ -2,9 +2,8 @@ package net.dungeonsworkshop.dungeonmaster.common.init;
 
 import com.tterrag.registrate.util.RegistryEntry;
 import net.dungeonsworkshop.dungeonmaster.DungeonMaster;
-import net.dungeonsworkshop.dungeonmaster.common.blocks.CrossBlock;
+import net.dungeonsworkshop.dungeonmaster.common.blocks.*;
 import net.dungeonsworkshop.dungeonmaster.common.blocks.GrassBlock;
-import net.dungeonsworkshop.dungeonmaster.common.blocks.PathBlock;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.tags.BlockTags;
@@ -17,6 +16,11 @@ import static net.dungeonsworkshop.dungeonmaster.DungeonMaster.registrate;
 
 public class DungeonBlocks {
     //Blocks
+
+    public static final RegistryEntry<TileBlock> TILE_BLOCK = registerFullBlock("tileblock", () -> new TileBlock(Block.Properties.create(Material.BARRIER)));
+    public static final RegistryEntry<TileDoorBlock> TILE_DOOR = registerFullBlock("tiledoorblock", () -> new TileDoorBlock(Block.Properties.create(Material.BARRIER)));
+    public static final RegistryEntry<RegionPlaneBlock> REGION_PLANE_BLOCK = registerFullBlock("regionplaneblock", () -> new RegionPlaneBlock(Block.Properties.create(Material.BARRIER)));
+
     // ------------------------ Squid Coast Start ------------------------
     //Full Blocks
     public static final RegistryEntry<Block> UNKNOWN_BLOCK = registerFullBlock("unknownblock", () -> new Block(Block.Properties.create(Material.BARRIER)));
@@ -174,7 +178,7 @@ public class DungeonBlocks {
 
     private static <T extends RotatedPillarBlock> RegistryEntry<T> registerSidedPillarBlock(String levelname, String name, Supplier<T> block) {
         return registrate
-                .object(levelname + "/"  + name)
+                .object(levelname + "/" + name)
                 .block(properties -> block.get())
                 .blockstate((ctx, provider) -> {
                     ModelFile modelFile = provider.models().withExistingParent("block/" + ctx.getName(), new ResourceLocation("block/cube_column"))
@@ -189,7 +193,7 @@ public class DungeonBlocks {
                 .build().register();
     }
 
-    private static <T extends SlabBlock> RegistryEntry<T> registerSlab(String levelname, String name, String sideTextureSuffix,  String topTextureSuffix, Supplier<T> block) {
+    private static <T extends SlabBlock> RegistryEntry<T> registerSlab(String levelname, String name, String sideTextureSuffix, String topTextureSuffix, Supplier<T> block) {
         return registrate
                 .object(levelname + "/" + name)
                 .block(properties -> block.get())
@@ -290,7 +294,7 @@ public class DungeonBlocks {
 
     private static <T extends Block> RegistryEntry<T> registerPathBlockSided(String levelname, String name, Supplier<T> block) {
         return registrate
-                .object(levelname + "/"  + name)
+                .object(levelname + "/" + name)
                 .block(properties -> block.get())
                 .blockstate((ctx, provider) -> {
                     ModelFile modelFile = provider.models().withExistingParent("block/" + ctx.getName(), new ResourceLocation("block/grass_path"))
@@ -366,6 +370,8 @@ public class DungeonBlocks {
                 })
                 .build().register();
     }
-    public static void load() {}
+
+    public static void load() {
+    }
 
 }

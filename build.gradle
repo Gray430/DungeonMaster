@@ -88,7 +88,11 @@ repositories {
     jcenter()
     mavenLocal()
 
-    maven { // Registrate
+    maven {
+        name = "JitPack"
+        url = "https://jitpack.io"
+    }
+    maven {
         name 'tterrag maven'
         url "https://maven.tterrag.com/"
     }
@@ -100,11 +104,16 @@ dependencies {
     def registrate = "com.tterrag.registrate:Registrate:MC${project.mcVersion}-${project.registrateVersion}"
     implementation fg.deobf(registrate)
     shade registrate
+
+    def fishLib = "com.github.Ocelot5836:FishLib:${project.mcVersion}-${project.fishLib}"
+    implementation fg.deobf(fishLib)
+    shade fishLib
 }
 
 shadowJar {
     configurations = [project.configurations.shade]
     relocate 'com.tterrag.registrate', 'dungeonsworkshop.repack.registrate'
+    relocate 'io.github.ocelot', 'io.github.ocelot'
 }
 
 processResources {

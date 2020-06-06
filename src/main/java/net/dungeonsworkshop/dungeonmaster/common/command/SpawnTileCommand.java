@@ -3,19 +3,22 @@ package net.dungeonsworkshop.dungeonmaster.common.command;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.dungeonsworkshop.dungeonmaster.common.map.editor.MapHelper;
-import net.dungeonsworkshop.dungeonmaster.common.map.types.Tile;
+import net.dungeonsworkshop.dungeonmaster.common.blocks.TileBlock;
+import net.dungeonsworkshop.dungeonmaster.common.entity.TileBlockTE;
+import net.dungeonsworkshop.dungeonmaster.common.map.editor.EditorManager;
+import net.dungeonsworkshop.dungeonmaster.common.map.objects.Tile;
+import net.dungeonsworkshop.dungeonmaster.util.LevelIdEnum;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.BlockPosArgument;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 
 public class SpawnTileCommand {
 
-    public static void register(CommandDispatcher<CommandSource> dispatcher)
-    {
+    public static void register(CommandDispatcher<CommandSource> dispatcher) {
         dispatcher.register(
                 Commands.literal("spawntile")
                         .requires((source) -> source.hasPermissionLevel(2))
@@ -25,17 +28,24 @@ public class SpawnTileCommand {
         );
     }
 
-    private static int execute(CommandSource source, BlockPos position) throws CommandSyntaxException
-    {
+    private static int execute(CommandSource source, BlockPos position) throws CommandSyntaxException {
         try {
             ServerPlayerEntity player = source.asPlayer();
-            Tile tile = MapHelper.loadTile("Lobby", "lobby001");
-            Tile.buildTileAtPos(player.world, position, tile);
-            source.sendFeedback(new StringTextComponent("Spawned Tile at " + position), true);
+//            Tile tile = EditorManager.instance().OBJECT_GROUPS.get("squidcoast").getTile("scn_start001");
+            source.getServer().execute(() -> {
+                TileEntity tileEntity = player.world.getTileEntity(position);
+                if(tileEntity != null && tileEntity instanceof TileBlockTE){
+                    TileBlockTE tileBlockTE = (TileBlockTE) tileEntity;
+                    tileBlockTE.importTile();
+                    source.sendFeedback(new StringTextComponent("Found Tile Block and spawning tile at " + position), true);
+                }else{
+                    source.sendFeedback(new StringTextComponent("Tile block not found at " + position), true);
+                }
+            });
 
             return Command.SINGLE_SUCCESS;
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return 0;
         }

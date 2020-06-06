@@ -3,7 +3,7 @@ package net.dungeonsworkshop.dungeonmaster.common.command;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.dungeonsworkshop.dungeonmaster.common.map.editor.MapHelper;
+import net.dungeonsworkshop.dungeonmaster.common.map.editor.EditorManager;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.BlockPosArgument;
@@ -13,8 +13,7 @@ import net.minecraft.util.text.StringTextComponent;
 
 public class GetBedrockInfoCommand {
 
-    public static void register(CommandDispatcher<CommandSource> dispatcher)
-    {
+    public static void register(CommandDispatcher<CommandSource> dispatcher) {
         dispatcher.register(
                 Commands.literal("bedrockinfo")
                         .requires((source) -> source.hasPermissionLevel(2))
@@ -24,14 +23,13 @@ public class GetBedrockInfoCommand {
         );
     }
 
-    private static int execute(CommandSource source, BlockPos position) throws CommandSyntaxException
-    {
+    private static int execute(CommandSource source, BlockPos position) throws CommandSyntaxException {
         try {
             ServerPlayerEntity player = source.asPlayer();
-//            source.sendFeedback(new StringTextComponent(MapHelper.getInfoAtPos("Lobby", "lobby001", position)), true);
+            source.sendFeedback(new StringTextComponent(EditorManager.instance().OBJECT_GROUPS.get("lobby").getTile("lobby001").getUnmappedBlockAtPos(position.add(0, -1, 0)).toString()), true);
 
             return Command.SINGLE_SUCCESS;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return 0;
         }

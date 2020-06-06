@@ -2,7 +2,6 @@ package net.dungeonsworkshop.dungeonmaster.common.init;
 
 import net.dungeonsworkshop.dungeonmaster.DungeonMaster;
 import net.minecraft.item.Item;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
