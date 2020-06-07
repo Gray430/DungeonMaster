@@ -4,7 +4,9 @@ import io.github.ocelot.common.valuecontainer.SyncValueContainerMessage;
 import io.github.ocelot.common.valuecontainer.ValueContainer;
 import net.dungeonsworkshop.dungeonmaster.DungeonMaster;
 import net.dungeonsworkshop.dungeonmaster.client.gui.TileBlockScreen;
+import net.dungeonsworkshop.dungeonmaster.common.map.editor.EditorManager;
 import net.dungeonsworkshop.dungeonmaster.common.network.DisplayScreenMessage;
+import net.dungeonsworkshop.dungeonmaster.common.network.TileBlockLoadMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -32,17 +34,14 @@ public class ClientMessageHandler implements MessageHandler {
             if (world == null)
                 return;
 
-            if (msg.getType() == DisplayScreenMessage.GuiType.VALUE_CONTAINER_EDITOR)
-            {
-                if (pos == null)
-                {
+            if (msg.getType() == DisplayScreenMessage.GuiType.VALUE_CONTAINER_EDITOR) {
+                if (pos == null) {
                     DungeonMaster.LOGGER.error("Gui packet " + msg.getType() + " was expected to have a block pos!");
                     return;
                 }
 
                 TileEntity te = world.getTileEntity(pos);
-                if (!(te instanceof ValueContainer) && !(world.getBlockState(pos).getBlock() instanceof ValueContainer))
-                {
+                if (!(te instanceof ValueContainer) && !(world.getBlockState(pos).getBlock() instanceof ValueContainer)) {
                     DungeonMaster.LOGGER.error("Tile Entity at '" + pos + "' was expected to be a ValueContainer, but it was " + world.getTileEntity(pos) + "!");
                     return;
                 }
@@ -53,7 +52,20 @@ public class ClientMessageHandler implements MessageHandler {
     }
 
     @Override
-    public void handleSyncValueContainerMessage(SyncValueContainerMessage msg, Supplier<NetworkEvent.Context> ctx) {
-        throw new UnsupportedOperationException("Client cannot be told to sync Value Containers");
+    public void handleTileBlockLoadMessage(TileBlockLoadMessage msg, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() ->
+        {
+            BlockPos pos = msg.getPos();
+            BlockPos size = msg.getSize();
+            boolean toLoad = msg.toLoad();
+
+            if(toLoad){
+                EditorManager.ClientTileBlockManager.TILE_MANAGERS.put(pos, size);
+            }else if(EditorManager.ClientTileBlockManager.TILE_MANAGERS.containsKey(pos)){
+                EditorManager.ClientTileBlockManager.TILE_MANAGERS.remove(pos);
+            }
+        });
+        ctx.get().setPacketHandled(true);
     }
+
 }

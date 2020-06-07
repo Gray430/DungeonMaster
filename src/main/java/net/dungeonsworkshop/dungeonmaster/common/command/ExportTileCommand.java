@@ -28,16 +28,15 @@ public class ExportTileCommand {
         try {
             ServerPlayerEntity player = source.asPlayer();
 //            Tile tile = EditorManager.instance().OBJECT_GROUPS.get("squidcoast").getTile("scn_start001");
-            source.getServer().execute(() -> {
-                TileEntity tileEntity = player.world.getTileEntity(position);
-                if (tileEntity != null && tileEntity instanceof TileBlockTE) {
-                    TileBlockTE tileBlockTE = (TileBlockTE) tileEntity;
-                    tileBlockTE.exportTile();
-                    source.sendFeedback(new StringTextComponent("Found Tile Block and exporting"), true);
-                } else {
-                    source.sendFeedback(new StringTextComponent("Tile block not found at " + position), true);
-                }
-            });
+
+            TileEntity tileEntity = player.world.getTileEntity(position);
+            if (tileEntity != null && tileEntity instanceof TileBlockTE) {
+                TileBlockTE tileBlockTE = (TileBlockTE) tileEntity;
+                tileBlockTE.exportTile();
+                source.sendFeedback(new StringTextComponent("Found Tile Block and exporting"), true);
+            } else {
+                source.sendFeedback(new StringTextComponent("Tile block not found at " + position), true);
+            }
 
             return Command.SINGLE_SUCCESS;
 

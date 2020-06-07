@@ -10,7 +10,6 @@ import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 
 import static net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY;
@@ -49,7 +48,7 @@ public class TileBlockTERenderer extends TileEntityRenderer<TileBlockTE> {
 
         int yLevel = tileEntityIn.getY() - 2;
         Vec3i size = tileEntityIn.getSize();
-        WorldRenderer.drawBoundingBox(matrixStackIn, builder, 0, -1, 0, size.getX(), size.getY() + yLevel, size.getZ(), 1, 1, 1, 1);
+//        WorldRenderer.drawBoundingBox(matrixStackIn, builder, 0, -1, 0, size.getX(), size.getY() + yLevel, size.getZ(), 1, 1, 1, 1);
 
         matrixStackIn.pop();
     }

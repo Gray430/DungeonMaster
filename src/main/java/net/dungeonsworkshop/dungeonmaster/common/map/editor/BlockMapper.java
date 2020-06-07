@@ -13,7 +13,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.command.arguments.BlockStateParser;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.state.properties.StairsShape;
-import net.minecraft.util.Direction;
 import net.minecraftforge.common.Tags;
 import org.apache.commons.io.IOUtils;
 
@@ -42,10 +41,12 @@ public class BlockMapper {
                         BBlockState bedrockState = new BBlockState(Integer.parseInt(idState[0]), Integer.parseInt(idState[1]));
                         BlockState javaState = new BlockStateParser(new StringReader(javaBlockState[1]), false).parse(false).getState();
 
-                        bedrockToJavaMap.put(bedrockState, javaState);
-                        if(!javaToBedrockMap.containsKey(javaState)){
+                        if (!bedrockToJavaMap.containsKey(bedrockState)) {
+                            bedrockToJavaMap.put(bedrockState, javaState);
+                        }
+                        if (!javaToBedrockMap.containsKey(javaState)) {
                             javaToBedrockMap.put(javaState, bedrockState);
-                        }else{
+                        } else {
                             System.out.println("found duplicate entry for " + javaBlockState[1]);
                         }
 
@@ -72,11 +73,11 @@ public class BlockMapper {
         return genericLevelID.getBedrockToJava().computeIfAbsent(bBlockState, empty -> DungeonBlocks.UNKNOWN_BLOCK.get().getDefaultState());
     }
 
-    public static BBlockState getBedrockBlockState(BlockState blockState, LevelIdEnum genericLevelID){
+    public static BBlockState getBedrockBlockState(BlockState blockState, LevelIdEnum genericLevelID) {
         BBlockState bBlockState = genericLevelID.getJavaToBedrock().computeIfAbsent(blockState, empty -> new BBlockState(0, 0));
-        if(blockState.getBlock().getTags().contains(Tags.Blocks.FENCES.getId()) || blockState.getBlock().getRegistryName().getPath().contains("wall") || blockState.getBlock().getRegistryName().getPath().contains("leaves") ){
+        if (blockState.getBlock().getTags().contains(Tags.Blocks.FENCES.getId()) || blockState.getBlock().getRegistryName().getPath().contains("wall") || blockState.getBlock().getRegistryName().getPath().contains("leaves")) {
             bBlockState = genericLevelID.getJavaToBedrock().computeIfAbsent(blockState.getBlock().getDefaultState(), empty -> new BBlockState(0, 0));
-        }else if(blockState.getBlock().getRegistryName().getPath().contains("stair") && blockState.get(BlockStateProperties.STAIRS_SHAPE) != StairsShape.STRAIGHT){
+        } else if (blockState.getBlock().getRegistryName().getPath().contains("stair") && blockState.get(BlockStateProperties.STAIRS_SHAPE) != StairsShape.STRAIGHT) {
             bBlockState = genericLevelID.getJavaToBedrock().computeIfAbsent(blockState.getBlock().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, blockState.get(BlockStateProperties.HORIZONTAL_FACING)), empty -> new BBlockState(0, 0));
         }
         return bBlockState;

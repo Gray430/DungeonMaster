@@ -4,8 +4,6 @@ import com.google.gson.*;
 import net.minecraft.util.math.Vec3i;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Door {
@@ -54,7 +52,7 @@ public class Door {
         this.tags = tags;
     }
 
-    public JsonObject toJson(){
+    public JsonObject toJson() {
         JsonObject jsonObject = new JsonObject();
 
         JsonArray posArray = new JsonArray();

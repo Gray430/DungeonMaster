@@ -26,20 +26,20 @@ public enum LevelIdEnum {
         return Empty;
     }
 
-    public void setBedrockToJava(Map<BBlockState, BlockState> bedrockToJava) {
-        this.bedrockToJava = bedrockToJava;
-    }
-
     public Map<BBlockState, BlockState> getBedrockToJava() {
         return bedrockToJava;
     }
 
-    public void setJavaToBedrock(Map<BlockState, BBlockState> javaToBedrock) {
-        this.javaToBedrock = javaToBedrock;
+    public void setBedrockToJava(Map<BBlockState, BlockState> bedrockToJava) {
+        this.bedrockToJava = bedrockToJava;
     }
 
     public Map<BlockState, BBlockState> getJavaToBedrock() {
         return javaToBedrock;
+    }
+
+    public void setJavaToBedrock(Map<BlockState, BBlockState> javaToBedrock) {
+        this.javaToBedrock = javaToBedrock;
     }
 
     public String getId() {

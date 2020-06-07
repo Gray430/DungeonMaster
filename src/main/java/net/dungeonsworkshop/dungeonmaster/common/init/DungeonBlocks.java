@@ -2,8 +2,8 @@ package net.dungeonsworkshop.dungeonmaster.common.init;
 
 import com.tterrag.registrate.util.RegistryEntry;
 import net.dungeonsworkshop.dungeonmaster.DungeonMaster;
-import net.dungeonsworkshop.dungeonmaster.common.blocks.*;
 import net.dungeonsworkshop.dungeonmaster.common.blocks.GrassBlock;
+import net.dungeonsworkshop.dungeonmaster.common.blocks.*;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.tags.BlockTags;

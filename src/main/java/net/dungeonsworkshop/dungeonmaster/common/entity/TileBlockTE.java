@@ -10,6 +10,8 @@ import net.dungeonsworkshop.dungeonmaster.common.map.editor.BlockMapper;
 import net.dungeonsworkshop.dungeonmaster.common.map.editor.EditorManager;
 import net.dungeonsworkshop.dungeonmaster.common.map.editor.FileLoader;
 import net.dungeonsworkshop.dungeonmaster.common.map.objects.Tile;
+import net.dungeonsworkshop.dungeonmaster.common.network.DungeonsMessageHandler;
+import net.dungeonsworkshop.dungeonmaster.common.network.TileBlockLoadMessage;
 import net.dungeonsworkshop.dungeonmaster.util.BBlockState;
 import net.dungeonsworkshop.dungeonmaster.util.LevelIdEnum;
 import net.dungeonsworkshop.dungeonmaster.util.Vec2i;
@@ -26,6 +28,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.fml.network.PacketDistributor;
 import org.apache.commons.codec.binary.Base64;
 
 import javax.annotation.Nullable;
@@ -33,8 +36,7 @@ import java.util.*;
 
 public class TileBlockTE extends TileEntity implements ValueContainer {
 
-    private Tile loadedTile;
-    private String id = "";
+    private String tileId = "";
     private Vec3d size = new Vec3d(5, 5, 5);
     private int y = 1;
 
@@ -44,17 +46,24 @@ public class TileBlockTE extends TileEntity implements ValueContainer {
 
     @Override
     public void onLoad() {
-        if (world.isRemote()) {
-            EditorManager.TILE_MANAGERS.add(this);
+        if (!world.isRemote()) {
+            DungeonsMessageHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new TileBlockLoadMessage(this.pos, new BlockPos(this.getSize()), true));
         }
     }
 
-    public void importTile() {
-        loadedTile = EditorManager.instance().getTileByID(id);
-        if (loadedTile != null) {
-            loadedTile.buildAtPos(this.world, this.pos, LevelIdEnum.SquidCoast);
+    @Override
+    public void remove() {
+        super.remove();
+        DungeonsMessageHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new TileBlockLoadMessage(this.pos, new BlockPos(this.getSize()), false));
+    }
+
+    public boolean importTile() {
+        Tile tile = EditorManager.getTileFromId("lobby", tileId);
+        if (tile != null) {
+            tile.buildAtPos(this.world, this.pos, LevelIdEnum.SquidCoast);
+            return true;
         } else {
-            System.out.println("Could not find tile by the id " + this.id);
+            return false;
         }
     }
 
@@ -108,28 +117,28 @@ public class TileBlockTE extends TileEntity implements ValueContainer {
             BlockPos.Mutable currentIterationPos = new BlockPos.Mutable();
             for (int z = 0; z < finalSize.getX(); z++) {
                 for (int x = 0; x < finalSize.getZ(); x++) {
-                    for(int y = finalSize.getY(); 0 < y; y--){
+                    for (int y = finalSize.getY(); 0 < y; y--) {
                         currentIterationPos.setPos(x, y, z);
-                        if(world.getBlockState(currentIterationPos).getBlock() != Blocks.AIR){
+                        if (world.getBlockState(currentIterationPos).getBlock() != Blocks.AIR) {
                             heightMapData.put(new Vec2i(x, z), y);
                             break;
-                        }else if(y <= 0){
-                            heightMapData.put(new Vec2i(x, z),0);
+                        } else if (y <= 0) {
+                            heightMapData.put(new Vec2i(x, z), 0);
                         }
                     }
-                    for(int y = world.getMaxHeight(); 0 < y; y--){
+                    for (int y = world.getMaxHeight(); 0 < y; y--) {
                         currentIterationPos.setPos(x, y, z);
-                        if(world.getBlockState(currentIterationPos).getBlock() == DungeonBlocks.REGION_PLANE_BLOCK.get()){
+                        if (world.getBlockState(currentIterationPos).getBlock() == DungeonBlocks.REGION_PLANE_BLOCK.get()) {
                             regionPlaneData.put(new Vec2i(x, z), 1);
                             break;
-                        }else if(y <= 0){
+                        } else if (y <= 0) {
                             regionPlaneData.put(new Vec2i(x, z), 1);
                         }
                     }
                 }
             }
 
-            Tile exportTile = new Tile(id, finalSize, 1);
+            Tile exportTile = new Tile(tileId, finalSize, 1);
             exportTile.setRegionPlane(regionPlaneData);
             exportTile.setHeightMap(heightMapData);
             exportTile.setBlocks(new String(new Base64().encode(FileLoader.compress(exportList))));
@@ -143,7 +152,7 @@ public class TileBlockTE extends TileEntity implements ValueContainer {
 
     @Override
     public CompoundNBT write(CompoundNBT compound) {
-        compound.putString("tileId", id);
+        compound.putString("tileId", tileId);
         compound.putInt("sizeX", (int) size.getX());
         compound.putInt("sizeY", (int) size.getY());
         compound.putInt("sizeZ", (int) size.getZ());
@@ -153,7 +162,7 @@ public class TileBlockTE extends TileEntity implements ValueContainer {
 
     @Override
     public void read(CompoundNBT compound) {
-        id = compound.getString("tileId");
+        tileId = compound.getString("tileId");
         size = new Vec3d(compound.getInt("sizeX"), compound.getInt("sizeY"), compound.getInt("sizeZ"));
         y = compound.getInt("Y");
         super.read(compound);
@@ -161,16 +170,15 @@ public class TileBlockTE extends TileEntity implements ValueContainer {
 
     @Override
     public void getEntries(World world, BlockPos blockPos, List<ValueContainerEntry<?>> entries) {
-        entries.add(new StringValueContainerEntry(new StringTextComponent("Tile ID"), "id", id));
+        entries.add(new StringValueContainerEntry(new StringTextComponent("Tile ID"), "id", tileId));
         entries.add(new VectorValueContainerEntry(new StringTextComponent("Size"), "size", size));
-        //entries.add(new IntValueContainerEntry(new StringTextComponent("Y"), "y", y));
     }
 
     @Override
     public void readEntries(World world, BlockPos blockPos, Map<String, ValueContainerEntry<?>> map) {
         if (map.containsKey("id")) {
             String id = map.get("id").getValue();
-            this.id = id;
+            this.tileId = id;
         }
         if (map.containsKey("size")) {
             Vec3d size = map.get("size").getValue();
@@ -216,21 +224,35 @@ public class TileBlockTE extends TileEntity implements ValueContainer {
             world.notifyBlockUpdate(pos, this.getBlockState(), this.getBlockState(), Constants.BlockFlags.DEFAULT);
     }
 
-    public void setSize(Vec3d size) {
-        this.size = size;
-        this.sync();
+    @Override
+    public void markDirty() {
+        super.markDirty();
+        DungeonsMessageHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new TileBlockLoadMessage(this.pos, new BlockPos(this.getSize()), true));
     }
 
-    public void setY(int y) {
-        this.y = y;
-        this.sync();
+    public String getTileId() {
+        return tileId;
+    }
+
+    public void setTileId(String tileId) {
+        this.tileId = tileId;
     }
 
     public Vec3i getSize() {
         return new Vec3i(size.getX(), size.getY(), size.getZ());
     }
 
+    public void setSize(Vec3d size) {
+        this.size = size;
+        this.sync();
+    }
+
     public int getY() {
         return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+        this.sync();
     }
 }
