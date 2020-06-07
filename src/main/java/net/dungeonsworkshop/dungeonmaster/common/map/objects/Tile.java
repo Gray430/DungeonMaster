@@ -25,9 +25,10 @@ public class Tile {
     private String id;
     private Vec3i size;
     private String blocks = "";
-    private Door entryDoor;
+    private BlockPos playerSpawnPos;
     private int y = 1;
-    private Map<Vec2i, Integer>  regionPlane = new HashMap<>();
+    private Map<Vec2i, Integer> regionPlane = new HashMap<>();
+    private Map<Vec2i, Integer> heightMap = new HashMap<>();
     private List<Door> doors = new ArrayList<>();
     private List<Door> connections = new ArrayList<>();
     private List<Region> regions = new ArrayList<>();
@@ -35,6 +36,7 @@ public class Tile {
     public Tile(String id, Vec3i size, int y) {
         this.id = id;
         this.size = size;
+        this.playerSpawnPos = new BlockPos(size.getX() / 2, size.getY() - 30, size.getZ() / 2);
         this.y = y;
     }
 
@@ -54,6 +56,10 @@ public class Tile {
         this.regionPlane = regionPlane;
     }
 
+    public void setHeightMap(Map<Vec2i, Integer> heightMap) {
+        this.heightMap = heightMap;
+    }
+
     public void setDoors(List<Door> doors) {
         this.doors = doors;
     }
@@ -62,8 +68,8 @@ public class Tile {
         this.connections = connections;
     }
 
-    public void setEntryDoor(Door entryDoor) {
-        this.entryDoor = entryDoor;
+    public void setPlayerSpawnPos(BlockPos playerSpawnPos) {
+        this.playerSpawnPos = playerSpawnPos;
     }
 
     public void setRegions(List<Region> regions) {
@@ -80,6 +86,14 @@ public class Tile {
 
     public int getY() {
         return y;
+    }
+
+    public Map<Vec2i, Integer> getRegionPlane() {
+        return this.regionPlane;
+    }
+
+    public Map<Vec2i, Integer> getHeightMap() {
+        return this.heightMap;
     }
 
     public List<BBlockState> getBlocks() {
@@ -126,6 +140,22 @@ public class Tile {
         regions.remove(region);
     }
 
+    public List<Door> getDoors() {
+        return doors;
+    }
+
+    public List<Door> getConnections() {
+        return connections;
+    }
+
+    public BlockPos getPlayerSpawnPos() {
+        return playerSpawnPos;
+    }
+
+    public List<Region> getRegions() {
+        return regions;
+    }
+
     public BlockState getBlockAtPos(BlockPos pos, LevelIdEnum resourcePack) {
         List<Integer> stateData = new ArrayList<>();
 
@@ -166,22 +196,6 @@ public class Tile {
         return new BBlockState(0, 0);
     }
 
-    public List<Door> getDoors() {
-        return doors;
-    }
-
-    public List<Door> getConnections() {
-        return connections;
-    }
-
-    public Door getEntryDoor() {
-        return entryDoor;
-    }
-
-    public List<Region> getRegions() {
-        return regions;
-    }
-
     public void buildAtPos(World world, BlockPos pos, LevelIdEnum resourcePack) {
         BlockPos position = pos.add(0, 1, 0);
         List<BBlockState> bBlocks = getBlocks();
@@ -205,21 +219,34 @@ public class Tile {
     public JsonObject toJsonTile() throws IOException {
         int[] pos = new int[]{0, 0, 0};
         byte[] regionData = new byte[size.getX() * size.getZ()];
+        byte[] heightData = new byte[size.getX() * size.getZ()];
 
         int it = 0;
         for (int z = 0; z < size.getZ(); z++) {
             for (int x = 0; x < size.getX(); x++) {
-                if(regionData.length >= it && regionPlane.containsKey(new Vec2i(x, z))){
-                    regionData[it] = (byte)regionPlane.get(new Vec2i(x, z)).intValue();
-                }else{
-                    regionData[it] = (byte)0;
+                if (heightData.length >= it && heightMap.containsKey(new Vec2i(x, z))) {
+                    heightData[it] = (byte) heightMap.get(new Vec2i(x, z)).intValue();
+                } else {
+                    heightData[it] = (byte) 0;
                 }
                 it++;
             }
         }
+
         it = 0;
+        for (int z = 0; z < size.getZ(); z++) {
+            for (int x = 0; x < size.getX(); x++) {
+                if (regionData.length >= it && regionPlane.containsKey(new Vec2i(x, z))) {
+                    regionData[it] = (byte) regionPlane.get(new Vec2i(x, z)).intValue();
+                } else {
+                    regionData[it] = (byte) 0;
+                }
+                it++;
+            }
+        }
 
         String regionPlane = new String(new Base64().encode(FileLoader.compress(regionData)));
+        String heightPlane = new String(new Base64().encode(FileLoader.compress(heightData)));
 
         JsonArray posArray = new JsonArray();
         posArray.add(0);
@@ -231,14 +258,20 @@ public class Tile {
         sizeArray.add(size.getY());
         sizeArray.add(size.getZ());
 
+        Door playerSpawnDoor = new Door("", playerSpawnPos, new Vec3i(3, 1, 3), "");
+
+        JsonArray doorArray = new JsonArray();
+        doorArray.add(playerSpawnDoor.toJson());
+
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("blocks", blocks);
-        jsonObject.addProperty("height-plane", regionPlane);
+        jsonObject.add("doors", doorArray);
+        jsonObject.addProperty("height-plane", heightPlane);
         jsonObject.addProperty("id", id);
         jsonObject.addProperty("is-leaky", false);
         jsonObject.add("pos", posArray);
         jsonObject.addProperty("region-plane", regionPlane);
-        jsonObject.addProperty("region-y-plane", regionPlane);
+        jsonObject.addProperty("region-y-plane", heightPlane);
         jsonObject.add("size", sizeArray);
         jsonObject.addProperty("tags", "");
         jsonObject.addProperty("y", 1);
@@ -274,8 +307,6 @@ public class Tile {
 
                     if (doorId.trim().isEmpty()) {
                         connections.add(context.deserialize(jsonElement, Door.class));
-                    } else if (doorId.equalsIgnoreCase("enter")) {
-                        tile.setEntryDoor(context.deserialize(jsonElement, Door.class));
                     } else {
                         doors.add(context.deserialize(jsonElement, Door.class));
                     }

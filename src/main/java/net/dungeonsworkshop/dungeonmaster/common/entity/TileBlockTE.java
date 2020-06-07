@@ -13,6 +13,7 @@ import net.dungeonsworkshop.dungeonmaster.common.map.objects.Tile;
 import net.dungeonsworkshop.dungeonmaster.util.BBlockState;
 import net.dungeonsworkshop.dungeonmaster.util.LevelIdEnum;
 import net.dungeonsworkshop.dungeonmaster.util.Vec2i;
+import net.minecraft.block.Blocks;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -103,12 +104,22 @@ public class TileBlockTE extends TileEntity implements ValueContainer {
 
             //##### Handle Region-Plane #####
             Map<Vec2i, Integer> regionPlaneData = new HashMap<>();
-            BlockPos.Mutable regionPlanePos = new BlockPos.Mutable();
+            Map<Vec2i, Integer> heightMapData = new HashMap<>();
+            BlockPos.Mutable currentIterationPos = new BlockPos.Mutable();
             for (int z = 0; z < finalSize.getX(); z++) {
                 for (int x = 0; x < finalSize.getZ(); x++) {
+                    for(int y = finalSize.getY(); 0 < y; y--){
+                        currentIterationPos.setPos(x, y, z);
+                        if(world.getBlockState(currentIterationPos).getBlock() != Blocks.AIR){
+                            heightMapData.put(new Vec2i(x, z), y);
+                            break;
+                        }else if(y <= 0){
+                            heightMapData.put(new Vec2i(x, z),0);
+                        }
+                    }
                     for(int y = world.getMaxHeight(); 0 < y; y--){
-                        regionPlanePos.setPos(x, y, z);
-                        if(world.getBlockState(regionPlanePos).getBlock() == DungeonBlocks.REGION_PLANE_BLOCK.get()){
+                        currentIterationPos.setPos(x, y, z);
+                        if(world.getBlockState(currentIterationPos).getBlock() == DungeonBlocks.REGION_PLANE_BLOCK.get()){
                             regionPlaneData.put(new Vec2i(x, z), 1);
                             break;
                         }else if(y <= 0){
@@ -120,6 +131,7 @@ public class TileBlockTE extends TileEntity implements ValueContainer {
 
             Tile exportTile = new Tile(id, finalSize, 1);
             exportTile.setRegionPlane(regionPlaneData);
+            exportTile.setHeightMap(heightMapData);
             exportTile.setBlocks(new String(new Base64().encode(FileLoader.compress(exportList))));
 
             FileLoader.outputJson(exportTile.toJsonTile());
@@ -158,11 +170,6 @@ public class TileBlockTE extends TileEntity implements ValueContainer {
     public void readEntries(World world, BlockPos blockPos, Map<String, ValueContainerEntry<?>> map) {
         if (map.containsKey("id")) {
             String id = map.get("id").getValue();
-            loadedTile = EditorManager.instance().getTileByID(id);
-            if (loadedTile != null) {
-                this.setSize(new Vec3d(loadedTile.getSize().getX(), loadedTile.getSize().getY(), loadedTile.getSize().getZ()));
-                //this.setY(loadedTile.getY());
-            }
             this.id = id;
         }
         if (map.containsKey("size")) {

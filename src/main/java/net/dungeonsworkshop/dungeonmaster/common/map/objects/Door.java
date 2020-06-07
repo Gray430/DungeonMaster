@@ -54,6 +54,27 @@ public class Door {
         this.tags = tags;
     }
 
+    public JsonObject toJson(){
+        JsonObject jsonObject = new JsonObject();
+
+        JsonArray posArray = new JsonArray();
+        posArray.add(pos.getX());
+        posArray.add(pos.getY());
+        posArray.add(pos.getZ());
+
+        JsonArray sizeArray = new JsonArray();
+        sizeArray.add(size.getX());
+        sizeArray.add(size.getY());
+        sizeArray.add(size.getZ());
+
+        jsonObject.addProperty("name", name);
+        jsonObject.add("pos", posArray);
+        jsonObject.add("size", sizeArray);
+        jsonObject.addProperty("tags", "");
+
+        return jsonObject;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -11,6 +11,9 @@ import net.dungeonsworkshop.dungeonmaster.util.BBlockState;
 import net.dungeonsworkshop.dungeonmaster.util.LevelIdEnum;
 import net.minecraft.block.BlockState;
 import net.minecraft.command.arguments.BlockStateParser;
+import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.state.properties.StairsShape;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.Tags;
 import org.apache.commons.io.IOUtils;
 
@@ -71,10 +74,11 @@ public class BlockMapper {
 
     public static BBlockState getBedrockBlockState(BlockState blockState, LevelIdEnum genericLevelID){
         BBlockState bBlockState = genericLevelID.getJavaToBedrock().computeIfAbsent(blockState, empty -> new BBlockState(0, 0));
-        if(blockState.getBlock().getTags().contains(Tags.Blocks.FENCES.getId()) || blockState.getBlock().getRegistryName().getPath().contains("wall") || blockState.getBlock().getRegistryName().getPath().contains("leaves")){
+        if(blockState.getBlock().getTags().contains(Tags.Blocks.FENCES.getId()) || blockState.getBlock().getRegistryName().getPath().contains("wall") || blockState.getBlock().getRegistryName().getPath().contains("leaves") ){
             bBlockState = genericLevelID.getJavaToBedrock().computeIfAbsent(blockState.getBlock().getDefaultState(), empty -> new BBlockState(0, 0));
+        }else if(blockState.getBlock().getRegistryName().getPath().contains("stair") && blockState.get(BlockStateProperties.STAIRS_SHAPE) != StairsShape.STRAIGHT){
+            bBlockState = genericLevelID.getJavaToBedrock().computeIfAbsent(blockState.getBlock().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, blockState.get(BlockStateProperties.HORIZONTAL_FACING)), empty -> new BBlockState(0, 0));
         }
-
         return bBlockState;
     }
 
