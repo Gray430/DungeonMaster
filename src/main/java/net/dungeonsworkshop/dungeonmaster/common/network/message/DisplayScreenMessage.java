@@ -1,13 +1,10 @@
-package net.dungeonsworkshop.dungeonmaster.common.network;
+package net.dungeonsworkshop.dungeonmaster.common.network.message;
 
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 
 import javax.annotation.Nullable;
 
-/**
- * @author Ocelot
- */
 public class DisplayScreenMessage {
     private final GuiType type;
     private final BlockPos pos;
@@ -39,6 +36,6 @@ public class DisplayScreenMessage {
     }
 
     public enum GuiType {
-        VALUE_CONTAINER_EDITOR
+        TILE_MANAGER_BLOCK
     }
 }

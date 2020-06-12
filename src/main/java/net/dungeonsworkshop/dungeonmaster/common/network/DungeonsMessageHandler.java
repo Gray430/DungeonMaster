@@ -1,10 +1,13 @@
 package net.dungeonsworkshop.dungeonmaster.common.network;
 
-import io.github.ocelot.common.valuecontainer.SyncValueContainerMessage;
 import net.dungeonsworkshop.dungeonmaster.DungeonMaster;
 import net.dungeonsworkshop.dungeonmaster.common.network.handler.ClientMessageHandler;
 import net.dungeonsworkshop.dungeonmaster.common.network.handler.MessageHandler;
 import net.dungeonsworkshop.dungeonmaster.common.network.handler.ServerMessageHandler;
+import net.dungeonsworkshop.dungeonmaster.common.network.message.DisplayScreenMessage;
+import net.dungeonsworkshop.dungeonmaster.common.network.message.TileManagerHandleMessage;
+import net.dungeonsworkshop.dungeonmaster.common.network.message.TileManagerSyncMessage;
+import net.dungeonsworkshop.dungeonmaster.common.network.message.TileManagerLoadMessage;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -24,7 +27,9 @@ public class DungeonsMessageHandler {
 
     public static void init() {
         registerMessage(DisplayScreenMessage.class, DisplayScreenMessage::encode, DisplayScreenMessage::decode, (msg, ctx) -> getHandler(ctx).handleOpenGuiMessage(msg, ctx));
-        registerMessage(TileBlockLoadMessage.class, TileBlockLoadMessage::encode, TileBlockLoadMessage::decode, (msg, ctx) -> getHandler(ctx).handleTileBlockLoadMessage(msg, ctx));
+        registerMessage(TileManagerLoadMessage.class, TileManagerLoadMessage::encode, TileManagerLoadMessage::decode, (msg, ctx) -> getHandler(ctx).handleTileBlockLoadMessage(msg, ctx));
+        registerMessage(TileManagerSyncMessage.class, TileManagerSyncMessage::encode, TileManagerSyncMessage::decode, (msg, ctx) -> getHandler(ctx).handleSyncTileManagerMessage(msg, ctx));
+        registerMessage(TileManagerHandleMessage.class, TileManagerHandleMessage::encode, TileManagerHandleMessage::decode, (msg, ctx) -> getHandler(ctx).handleSpawnTileMessage(msg, ctx));
     }
 
     private static <MSG> void registerMessage(Class<MSG> messageType, BiConsumer<MSG, PacketBuffer> encoder, Function<PacketBuffer, MSG> decoder, BiConsumer<MSG, Supplier<NetworkEvent.Context>> messageConsumer) {

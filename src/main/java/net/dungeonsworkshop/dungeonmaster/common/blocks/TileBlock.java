@@ -1,9 +1,8 @@
 package net.dungeonsworkshop.dungeonmaster.common.blocks;
 
-import io.github.ocelot.common.valuecontainer.ValueContainer;
 import net.dungeonsworkshop.dungeonmaster.common.entity.TileBlockTE;
-import net.dungeonsworkshop.dungeonmaster.common.network.DisplayScreenMessage;
 import net.dungeonsworkshop.dungeonmaster.common.network.DungeonsMessageHandler;
+import net.dungeonsworkshop.dungeonmaster.common.network.message.DisplayScreenMessage;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -28,8 +27,8 @@ public class TileBlock extends Block {
     @Override
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (player instanceof ServerPlayerEntity && !worldIn.isRemote() && worldIn.getTileEntity(pos) instanceof ValueContainer) {
-            DungeonsMessageHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new DisplayScreenMessage(DisplayScreenMessage.GuiType.VALUE_CONTAINER_EDITOR, pos));
+        if (player instanceof ServerPlayerEntity && !worldIn.isRemote() && worldIn.getTileEntity(pos) instanceof TileBlockTE) {
+            DungeonsMessageHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new DisplayScreenMessage(DisplayScreenMessage.GuiType.TILE_MANAGER_BLOCK, pos));
         }
 
         return ActionResultType.SUCCESS;

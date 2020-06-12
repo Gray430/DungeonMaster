@@ -1,75 +1,79 @@
 package net.dungeonsworkshop.dungeonmaster.common.entity;
 
-import io.github.ocelot.common.valuecontainer.StringValueContainerEntry;
-import io.github.ocelot.common.valuecontainer.ValueContainer;
-import io.github.ocelot.common.valuecontainer.ValueContainerEntry;
-import io.github.ocelot.common.valuecontainer.VectorValueContainerEntry;
-import net.dungeonsworkshop.dungeonmaster.common.init.DungeonBlocks;
 import net.dungeonsworkshop.dungeonmaster.common.init.DungeonEntities;
 import net.dungeonsworkshop.dungeonmaster.common.map.editor.BlockMapper;
 import net.dungeonsworkshop.dungeonmaster.common.map.editor.EditorManager;
 import net.dungeonsworkshop.dungeonmaster.common.map.editor.FileLoader;
 import net.dungeonsworkshop.dungeonmaster.common.map.objects.Tile;
 import net.dungeonsworkshop.dungeonmaster.common.network.DungeonsMessageHandler;
-import net.dungeonsworkshop.dungeonmaster.common.network.TileBlockLoadMessage;
+import net.dungeonsworkshop.dungeonmaster.common.network.message.TileManagerSyncMessage;
+import net.dungeonsworkshop.dungeonmaster.common.network.message.TileManagerHandleMessage;
 import net.dungeonsworkshop.dungeonmaster.util.BBlockState;
 import net.dungeonsworkshop.dungeonmaster.util.LevelIdEnum;
-import net.dungeonsworkshop.dungeonmaster.util.Vec2i;
-import net.minecraft.block.Blocks;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.network.PacketDistributor;
 import org.apache.commons.codec.binary.Base64;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class TileBlockTE extends TileEntity implements ValueContainer {
+public class TileBlockTE extends TileEntity {
 
+    private String objectGroupId = "";
     private String tileId = "";
-    private Vec3d size = new Vec3d(5, 5, 5);
-    private int y = 1;
+    private Tile loadedTile = new Tile("", new Vec3i(5, 5, 5), 0);
 
     public TileBlockTE() {
         super(DungeonEntities.TILE_BLOCK.get());
     }
 
+    public void sync() {
+        this.markDirty();
+        DungeonsMessageHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new TileManagerSyncMessage(this.getPos(), loadedTile));
+    }
+
     @Override
     public void onLoad() {
         if (!world.isRemote()) {
-            DungeonsMessageHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new TileBlockLoadMessage(this.pos, new BlockPos(this.getSize()), true));
+            EditorManager.loadTileBlock(this.pos, false);
         }
     }
 
     @Override
     public void remove() {
         super.remove();
-        DungeonsMessageHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new TileBlockLoadMessage(this.pos, new BlockPos(this.getSize()), false));
+        if(!world.isRemote()){
+            EditorManager.unloadTileBlock(this.pos, false);
+        }
     }
 
     public boolean importTile() {
-        Tile tile = EditorManager.getTileFromId("lobby", tileId);
-        if (tile != null) {
-            tile.buildAtPos(this.world, this.pos, LevelIdEnum.SquidCoast);
-            return true;
-        } else {
-            return false;
+        if(!world.isRemote()){
+            Tile tile = EditorManager.getTileFromId("lobby", tileId);
+            if (tile != null) {
+                loadedTile = tile;
+                tile.buildAtPos(this.getWorld(), this.getPos(), LevelIdEnum.SquidCoast);
+                return true;
+            } else {
+                return false;
+            }
+        }else{
+            DungeonsMessageHandler.INSTANCE.send(PacketDistributor.SERVER.noArg(), new TileManagerSyncMessage(this.getPos(), loadedTile));
+            DungeonsMessageHandler.INSTANCE.send(PacketDistributor.SERVER.noArg(), new TileManagerHandleMessage(this.getPos()));
         }
+        return true;
     }
 
     public void exportTile() {
         try {
-            Vec3i finalSize = this.getSize();
+            Vec3i finalSize = this.loadedTile.getSize();
             List<Integer> idList = new ArrayList<>();
             List<Integer> stateList = new ArrayList<>();
 
@@ -111,36 +115,9 @@ public class TileBlockTE extends TileEntity implements ValueContainer {
                 exportList[i] = blocksList.get(i).byteValue();
             }
 
-            //##### Handle Region-Plane #####
-            Map<Vec2i, Integer> regionPlaneData = new HashMap<>();
-            Map<Vec2i, Integer> heightMapData = new HashMap<>();
-            BlockPos.Mutable currentIterationPos = new BlockPos.Mutable();
-            for (int z = 0; z < finalSize.getX(); z++) {
-                for (int x = 0; x < finalSize.getZ(); x++) {
-                    for (int y = finalSize.getY(); 0 < y; y--) {
-                        currentIterationPos.setPos(x, y, z);
-                        if (world.getBlockState(currentIterationPos).getBlock() != Blocks.AIR) {
-                            heightMapData.put(new Vec2i(x, z), y);
-                            break;
-                        } else if (y <= 0) {
-                            heightMapData.put(new Vec2i(x, z), 0);
-                        }
-                    }
-                    for (int y = world.getMaxHeight(); 0 < y; y--) {
-                        currentIterationPos.setPos(x, y, z);
-                        if (world.getBlockState(currentIterationPos).getBlock() == DungeonBlocks.REGION_PLANE_BLOCK.get()) {
-                            regionPlaneData.put(new Vec2i(x, z), 1);
-                            break;
-                        } else if (y <= 0) {
-                            regionPlaneData.put(new Vec2i(x, z), 1);
-                        }
-                    }
-                }
-            }
-
             Tile exportTile = new Tile(tileId, finalSize, 1);
-            exportTile.setRegionPlane(regionPlaneData);
-            exportTile.setHeightMap(heightMapData);
+            exportTile.setRegionPlane(loadedTile.getRegionPlane());
+            exportTile.setHeightMap(loadedTile.getHeightMap());
             exportTile.setBlocks(new String(new Base64().encode(FileLoader.compress(exportList))));
 
             FileLoader.outputJson(exportTile.toJsonTile());
@@ -150,51 +127,17 @@ public class TileBlockTE extends TileEntity implements ValueContainer {
 
     }
 
+    //TODO move region data serialization to separate packet
     @Override
     public CompoundNBT write(CompoundNBT compound) {
         compound.putString("tileId", tileId);
-        compound.putInt("sizeX", (int) size.getX());
-        compound.putInt("sizeY", (int) size.getY());
-        compound.putInt("sizeZ", (int) size.getZ());
-        compound.putInt("Y", y);
         return super.write(compound);
     }
 
     @Override
     public void read(CompoundNBT compound) {
         tileId = compound.getString("tileId");
-        size = new Vec3d(compound.getInt("sizeX"), compound.getInt("sizeY"), compound.getInt("sizeZ"));
-        y = compound.getInt("Y");
         super.read(compound);
-    }
-
-    @Override
-    public void getEntries(World world, BlockPos blockPos, List<ValueContainerEntry<?>> entries) {
-        entries.add(new StringValueContainerEntry(new StringTextComponent("Tile ID"), "id", tileId));
-        entries.add(new VectorValueContainerEntry(new StringTextComponent("Size"), "size", size));
-    }
-
-    @Override
-    public void readEntries(World world, BlockPos blockPos, Map<String, ValueContainerEntry<?>> map) {
-        if (map.containsKey("id")) {
-            String id = map.get("id").getValue();
-            this.tileId = id;
-        }
-        if (map.containsKey("size")) {
-            Vec3d size = map.get("size").getValue();
-            this.size = size;
-        }
-        if (map.containsKey("y")) {
-            int y = map.get("y").getValue();
-            this.y = y;
-        }
-
-        this.sync();
-    }
-
-    @Override
-    public Optional<ITextComponent> getTitle(World world, BlockPos blockPos) {
-        return Optional.empty();
     }
 
     @Override
@@ -209,25 +152,13 @@ public class TileBlockTE extends TileEntity implements ValueContainer {
     }
 
     @Override
-    public AxisAlignedBB getRenderBoundingBox() {
-        return INFINITE_EXTENT_AABB;
-    }
-
-    @Override
     public CompoundNBT getUpdateTag() {
         return this.write(new CompoundNBT());
     }
 
-    public void sync() {
-        this.markDirty();
-        if (world != null)
-            world.notifyBlockUpdate(pos, this.getBlockState(), this.getBlockState(), Constants.BlockFlags.DEFAULT);
-    }
-
     @Override
-    public void markDirty() {
-        super.markDirty();
-        DungeonsMessageHandler.INSTANCE.send(PacketDistributor.ALL.noArg(), new TileBlockLoadMessage(this.pos, new BlockPos(this.getSize()), true));
+    public AxisAlignedBB getRenderBoundingBox() {
+        return INFINITE_EXTENT_AABB;
     }
 
     public String getTileId() {
@@ -238,21 +169,11 @@ public class TileBlockTE extends TileEntity implements ValueContainer {
         this.tileId = tileId;
     }
 
-    public Vec3i getSize() {
-        return new Vec3i(size.getX(), size.getY(), size.getZ());
+    public Tile getLoadedTile() {
+        return loadedTile;
     }
 
-    public void setSize(Vec3d size) {
-        this.size = size;
-        this.sync();
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-        this.sync();
+    public void setLoadedTile(Tile loadedTile) {
+        this.loadedTile = loadedTile;
     }
 }

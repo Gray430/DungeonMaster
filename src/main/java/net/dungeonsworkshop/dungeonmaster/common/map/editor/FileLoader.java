@@ -32,31 +32,6 @@ public class FileLoader {
         return new JsonObject();
     }
 
-    public static Level getLevelFromJson(JsonObject jsonObject) {
-        return null;
-    }
-
-    public static Map<Vec2i, Integer> getRegionPlaneFromJson(JsonObject tileJson) {
-        Map<Vec2i, Integer> regionPlaneMap = new HashMap<>();
-        JsonArray sizeArray = tileJson.get("size").getAsJsonArray();
-        Vec3i size = new Vec3i(sizeArray.get(0).getAsInt(), sizeArray.get(1).getAsInt(), sizeArray.get(2).getAsInt());
-
-        try {
-            byte[] decompressed = decompress(new Base64().decode(tileJson.get("region-plane").getAsString()));
-
-            int it = 0;
-            for (int z = 0; z < size.getZ(); z++)
-                for (int x = 0; x < size.getX(); x++) {
-                    regionPlaneMap.put(new Vec2i(x, z), (int) decompressed[it]);
-                    it++;
-                }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return regionPlaneMap;
-    }
-
     public static void outputJson(JsonObject jsonObject) {
         try (FileWriter fileWriter = new FileWriter("../output/objectgroup.json")) {
             EditorManager.GSON.toJson(jsonObject, fileWriter);

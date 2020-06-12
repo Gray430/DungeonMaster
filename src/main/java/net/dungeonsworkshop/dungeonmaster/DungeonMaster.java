@@ -2,7 +2,6 @@ package net.dungeonsworkshop.dungeonmaster;
 
 import com.tterrag.registrate.Registrate;
 import net.dungeonsworkshop.dungeonmaster.client.ClientEventHandler;
-import net.dungeonsworkshop.dungeonmaster.client.entity.render.TileBlockTERenderer;
 import net.dungeonsworkshop.dungeonmaster.common.command.ExportTileCommand;
 import net.dungeonsworkshop.dungeonmaster.common.command.GetBedrockInfoCommand;
 import net.dungeonsworkshop.dungeonmaster.common.command.ReloadMappingsCommand;
@@ -70,16 +69,11 @@ public class DungeonMaster {
     @SubscribeEvent
     public void onServerStartingEvent(FMLServerStartingEvent event) {
         ReloadMappingsCommand.register(event.getCommandDispatcher());
-        ExportTileCommand.register(event.getCommandDispatcher());
-        SpawnTileCommand.register(event.getCommandDispatcher());
-        GetBedrockInfoCommand.register(event.getCommandDispatcher());
     }
 
     @SubscribeEvent
     public void onClientSetupEvent(FMLClientSetupEvent event) {
-
         ClientEventHandler.init(event);
-        ClientRegistry.bindTileEntityRenderer(DungeonEntities.TILE_BLOCK.get(), TileBlockTERenderer::new);
     }
 
 }
